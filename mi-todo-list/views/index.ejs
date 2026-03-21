@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>mi To-Do List Dinámica</title>
+</head>
+
+<body>
+    <main class="app-container">
+        <header>
+            <h1>Mis tareas</h1>
+        </header>
+
+    </main>
+    <section id="input-area">
+        <input type="text" name="text" id="taskInput" placeholder="¿Qué quieres hacer?">
+    </section>
+
+    <section id="task-area">
+        <div id="select-all-container" class="hidden">
+            <input type="checkbox" id="selectAll">
+            <label for="selectAll">Seleccionar todos</label>
+        </div>
+        <div id="taskList"></div>
+        <div id="task-box"></div>
+        <button id="deleteBtn" class="hidden">Borrar</button>
+    </section>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
