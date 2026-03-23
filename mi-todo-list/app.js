@@ -1,16 +1,21 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const path = require('path'); // Mueve el require arriba
+const app = express();
 
-//Configuracion de EJS
-app.set('view engine', 'ejs')
+// 1. Configuración de EJS y rutas de vistas
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-//Servir archivos estaticos
-app.use(express.static('public'))
+// 2. Servir archivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.render('index');
 
+    res.render('index');
 });
 
-app.listen(3000, () =>
-console.log('Servidor corriendo en LOCAL HOST 3000'))
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'));
+}
+
+module.exports = app; 
