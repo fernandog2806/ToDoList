@@ -1,3 +1,200 @@
-.hidden{
+:root {
+    --primary: #6366f1;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    --bg: #f8fafc;
+    --white: #ffffff;
+    --text-muted: #64748b;
+}
+
+body {
+    background-color: var(--bg);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.app-container {
+    width: 90%;
+    max-width: 450px;
+    margin-top: clamp(20px, 5vh, 60px);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+h1 {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* --- CONTENEDOR DEL CARRUSEL Y FLECHAS --- */
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: white;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-carousel {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 5px;
+}
+
+.calendar-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--primary);
+    padding: 5px;
+    font-weight: bold;
+}
+
+/* --- TARJETAS DEL DÍA --- */
+.day-card {
+    min-width: 45px;
+    height: 55px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+}
+
+.day-name {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.day-number {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* ESTADO: TIENE TAREA (TODO EL CUADRADO ROJO) */
+.day-card.has-task {
+    background-color: var(--danger-light);
+    border-color: var(--danger);
+}
+
+.day-card.has-task .day-number {
+    color: var(--danger);
+}
+
+.day-card.has-task .day-name {
+    color: #b91c1c;
+}
+
+/* ESTADO: SELECCIONADO (AZUL) */
+.day-card.selected {
+    background-color: var(--primary) !important;
+    border-color: var(--primary);
+}
+
+.day-card.selected .day-number,
+.day-card.selected .day-name {
+    color: white !important;
+}
+
+/* --- SECCIONES DE INPUT Y LISTA --- */
+#input-area,
+#filter-area,
+#select-all-container {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+/* Contenedor principal que agrupa label e inputs */
+#input-area {
+    display: flex;
+    flex-direction: column;
+    /* Pone uno debajo del otro */
+    gap: 12px;
+    width: 100%;
+    /* Ocupa todo el ancho del contenedor padre */
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Forzar a que los inputs ocupen todo el ancho */
+#input-area input {
+    width: 100%;
+    /* ¡ESTA ES LA CLAVE! */
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    /* Evita que el padding los saque del borde */
+}
+
+/* El label también puede ocupar todo el ancho */
+#input-area label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}   
+#select-all-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+input,
+input[type="date"] {
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.task-box {
+    background: var(--white);
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+#deleteBtn {
+    width: 100%;
+    padding: 15px;
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hidden {
     display: none !important;
 }

@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+// app.listen(3000, () => {
+//     console.log('Servidor corriendo en http://localhost:3000');
+// });
+
 if (process.env.NODE_ENV !== 'production') {
     app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'));
 }

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
-    <title>mi To-Do List Dinámica</title>
+    <title>Mi Agenda Dinámica</title>
 </head>
 
 <body>
@@ -14,21 +14,43 @@
             <h1>Mis tareas</h1>
         </header>
 
+        <!-- SECCIÓN DE ENTRADA -->
+        <section id="input-area">
+            <label for="taskDate">Agendar para el día:</label>
+            <input type="date" id="taskDate">
+            <input type="text" id="taskInput" placeholder="¿Qué quieres hacer? (Enter)">
+            <div class="datetime-inputs">
+                <input type="time" id="taskTime"> <!-- Nuevo campo de hora -->
+            </div>
+        </section>
+        
+
+        <hr>
+
+        <!-- SECCIÓN DE FILTRO CON CARRUSEL -->
+        <section id="filter-area">
+            <label>🔍 Ver tareas del día:</label>
+            <div class="carousel-wrapper">
+                <button class="nav-btn" onclick="scrollCarousel(-1)">❮</button>
+                <div id="calendar-carousel" class="calendar-carousel">
+                    <!-- Los días se generan con JS -->
+                </div>
+                <button class="nav-btn" onclick="scrollCarousel(1)">❯</button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE LISTA -->
+        <section id="task-area">
+            <div id="select-all-container" class="hidden">
+                <input type="checkbox" id="selectAll">
+                <label for="selectAll">Seleccionar todos</label>
+            </div>
+
+            <div id="taskList"></div>
+
+            <button id="deleteBtn" class="hidden">Borrar seleccionadas</button>
+        </section>
     </main>
-    <section id="input-area">
-        <input type="text" name="text" id="taskInput" placeholder="¿Qué quieres hacer?">
-    </section>
-
-    <section id="task-area">
-        <div id="select-all-container" class="hidden">
-            <input type="checkbox" id="selectAll">
-            <label for="selectAll">Seleccionar todos</label>
-        </div>
-        <div id="taskList"></div>
-        <div id="task-box"></div>
-        <button id="deleteBtn" class="hidden">Borrar</button>
-    </section>
-
     <script src="/js/main.js"></script>
 </body>
 
