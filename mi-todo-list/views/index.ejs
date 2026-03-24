@@ -18,12 +18,16 @@
         <section id="input-area">
             <label for="taskDate">Agendar para el día:</label>
             <input type="date" id="taskDate">
-            <input type="text" id="taskInput" placeholder="¿Qué quieres hacer? (Enter)">
-            <div class="datetime-inputs">
-                <input type="time" id="taskTime"> <!-- Nuevo campo de hora -->
+
+            <label for="taskTime">Agendar para la hora: (opcional)</label>
+            <input type="time" id="taskTime">
+
+            <div class="input-group">
+                <input type="text" id="taskInput" placeholder="¿Qué quieres hacer?">
+                <button id="addBtn">Añadir</button>
             </div>
         </section>
-        
+
 
         <hr>
 

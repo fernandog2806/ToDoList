@@ -17,7 +17,7 @@ body {
 }
 
 .app-container {
-    width: 90%;
+    width: 95%;
     max-width: 450px;
     margin-top: clamp(20px, 5vh, 60px);
     display: flex;
@@ -31,7 +31,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* --- CONTENEDOR DEL CARRUSEL Y FLECHAS --- */
+/* --- CARRUSEL Y FLECHAS --- */
 .carousel-wrapper {
     display: flex;
     align-items: center;
@@ -48,7 +48,7 @@ h1 {
     overflow-x: auto;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    padding: 5px;
+    padding: 5px 0;
 }
 
 .calendar-carousel::-webkit-scrollbar {
@@ -67,12 +67,12 @@ h1 {
 
 /* --- TARJETAS DEL DÍA --- */
 .day-card {
-    min-width: 45px;
+    position: relative;
+    min-width: 55px;
     height: 55px;
     background: #f1f5f9;
     border-radius: 8px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -81,18 +81,23 @@ h1 {
     border: 1px solid transparent;
 }
 
-.day-name {
-    font-size: 9px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
-
 .day-number {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: bold;
+    color: #1e293b;
 }
 
-/* ESTADO: TIENE TAREA (TODO EL CUADRADO ROJO) */
+.today-label {
+    position: absolute;
+    top: 4px;
+    font-size: 7px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--primary);
+    width: 100%;
+    text-align: center;
+}
+
 .day-card.has-task {
     background-color: var(--danger-light);
     border-color: var(--danger);
@@ -102,77 +107,111 @@ h1 {
     color: var(--danger);
 }
 
-.day-card.has-task .day-name {
-    color: #b91c1c;
-}
-
-/* ESTADO: SELECCIONADO (AZUL) */
 .day-card.selected {
     background-color: var(--primary) !important;
     border-color: var(--primary);
 }
 
 .day-card.selected .day-number,
-.day-card.selected .day-name {
+.day-card.selected .today-label {
     color: white !important;
 }
+/* --- EFECTOS DE MOVIMIENTO (HOVER) --- */
 
-/* --- SECCIONES DE INPUT Y LISTA --- */
-#input-area,
-#filter-area,
-#select-all-container {
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+/* 1. Efecto base para todos los días */
+.day-card:hover {
+    background-color: #e0e7ff;
+    /* Un azul muy clarito */
+    transform: translateY(-3px);
+    /* Sube un poquito el cuadrado */
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
+    border-color: var(--primary);
 }
-/* Contenedor principal que agrupa label e inputs */
+
+/* 2. Efecto especial si el día tiene tareas (se pone un rojo más intenso) */
+.day-card.has-task:hover {
+    background-color: #fecaca;
+    /* Rojo un poco más fuerte al pasar el mouse */
+    border-color: var(--danger);
+}
+
+/* 3. Si el día ya está seleccionado (azul), que se oscurezca un poco al pasar el mouse */
+.day-card.selected:hover {
+    background-color: #4f46e5 !important;
+    /* Un azul más oscuro */
+    transform: translateY(-3px);
+}
+
+/* 4. Efecto de "click" (cuando presionas) */
+.day-card:active {
+    transform: scale(0.95);
+    /* Se achica un pelín como si fuera un botón real */
+    transition: 0.1s;
+}
+
+/* --- SECCIONES DE ENTRADA --- */
 #input-area {
     display: flex;
     flex-direction: column;
-    /* Pone uno debajo del otro */
     gap: 12px;
-    width: 100%;
-    /* Ocupa todo el ancho del contenedor padre */
-    padding: 20px;
     background: white;
+    padding: 20px;
     border-radius: 12px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
 }
 
-/* Forzar a que los inputs ocupen todo el ancho */
+#input-area label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
 #input-area input {
     width: 100%;
-    /* ¡ESTA ES LA CLAVE! */
     padding: 12px;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     font-size: 16px;
     box-sizing: border-box;
-    /* Evita que el padding los saque del borde */
 }
 
-/* El label también puede ocupar todo el ancho */
-#input-area label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
-}   
-#select-all-container {
+/* GRUPO DE TEXTO + BOTÓN AÑADIR */
+.input-group {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
+    gap: 8px;
+    width: 100%;
+    margin-top: 5px;
 }
 
-input,
-input[type="date"] {
-    padding: 12px;
-    border: 1px solid #e2e8f0;
+#taskInput {
+    flex: 1;
+    /* Estira el input de texto */
+}
+
+#addBtn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 15px;
     border-radius: 8px;
-    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    font-size: 14px;
+    white-space: nowrap;
+    /* Evita que el texto del botón se rompa */
 }
 
+#addBtn:hover {
+    background-color: #4f46e5;
+}
+
+#addBtn:active {
+    transform: scale(0.95);
+}
+
+/* --- LISTA DE TAREAS --- */
 .task-box {
     background: var(--white);
     padding: 15px;
@@ -184,6 +223,18 @@ input[type="date"] {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
+.task-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.task-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+    color: var(--text-muted);
+}
+
 #deleteBtn {
     width: 100%;
     padding: 15px;
@@ -193,6 +244,18 @@ input[type="date"] {
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
+    margin-top: 10px;
+}
+
+.secondary-btn {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
 .hidden {
