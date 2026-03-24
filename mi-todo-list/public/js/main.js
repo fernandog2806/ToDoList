@@ -38,25 +38,43 @@ taskInput.addEventListener('keypress', (e) => {
 
 // --- 4. RENDERIZADO DE TAREAS ---
 function renderTasks() {
-    const filtered = currentFilter ? tasks.filter(t => t.date === currentFilter) : tasks;
+    // 1. Filtramos por fecha
+    let filtered = currentFilter ? tasks.filter(t => t.date === currentFilter) : tasks;
+
+    // 2. ORDENAMOS: Sin hora arriba, con hora abajo en orden
+    filtered.sort((a, b) => {
+        if (!a.time && !b.time) return 0; // Ambas sin hora, mantienen su orden
+        if (!a.time) return -1; // 'a' no tiene hora, va primero (arriba)
+        if (!b.time) return 1;  // 'b' no tiene hora, va primero (arriba)
+
+        // Si ambas tienen hora, comparamos normalmente
+        return a.time.localeCompare(b.time);
+    });
+
+    // 3. Control del checkbox maestro
     if (selectAllContainer) {
         selectAllContainer.classList.toggle('hidden', filtered.length === 0);
         selectAll.checked = false;
     }
+
+    // 4. Dibujar la lista
     taskList.innerHTML = filtered.map((t) => `
         <div class="task-box">
             <input type="checkbox" class="task-check" data-id="${t.id}">
             <div class="task-info">
                 <span class="task-text">${t.text}</span>
                 <div class="task-meta">
+                    <!-- Si no hay hora, no renderiza nada en esta sección -->
                     ${t.time ? `<small>⏰ ${t.time} hs</small>` : ''} 
                 </div>
             </div>
         </div>
     `).join('');
+
     deleteBtn.classList.toggle('hidden', filtered.length === 0);
     renderCarousel();
 }
+
 
 // --- 5. RENDERIZADO DEL CARRUSEL (CON AUTO-SCROLL AL CENTRO) ---
 function renderCarousel() {
