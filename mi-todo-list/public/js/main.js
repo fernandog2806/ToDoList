@@ -6,12 +6,16 @@ const taskList = document.getElementById('taskList');
 const deleteBtn = document.getElementById('deleteBtn');
 const selectAll = document.getElementById('selectAll');
 const selectAllContainer = document.getElementById('select-all-container');
-const showAllBtn = document.getElementById('showAllBtn');
 const addBtn = document.getElementById('addBtn');
 
 // --- 2. ESTADO INICIAL ---
 let tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
-let currentFilter = "";
+
+// Ponemos la fecha de hoy por defecto en el input al abrir la página
+const hoy = new Date();
+const hoyISO = `${hoy.getFullYear()}-${(hoy.getMonth() + 1).toString().padStart(2, '0')}-${hoy.getDate().toString().padStart(2, '0')}`;
+taskDate.value = hoyISO;
+let currentFilter = hoyISO; // Empezamos viendo las tareas de hoy
 
 // --- 3. LÓGICA DE AGREGAR TAREAS ---
 function handleAddTask() {
@@ -21,7 +25,8 @@ function handleAddTask() {
             text: taskInput.value.trim(),
             date: taskDate.value,
             time: taskTime.value || null,
-            completed: false
+            completed: false,
+            priority: 'white'
         });
         saveAndRender();
         taskInput.value = "";
@@ -31,42 +36,42 @@ function handleAddTask() {
     }
 }
 
-if (addBtn) addBtn.addEventListener('click', handleAddTask);
-taskInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleAddTask();
-});
+addBtn?.addEventListener('click', handleAddTask);
+taskInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddTask(); });
 
 // --- 4. RENDERIZADO DE TAREAS ---
 function renderTasks() {
-    // 1. Filtramos por fecha
     let filtered = currentFilter ? tasks.filter(t => t.date === currentFilter) : tasks;
 
-    // 2. ORDENAMOS: Sin hora arriba, con hora abajo en orden
+    // Ordenar: primero las que no tienen hora, luego por hora
     filtered.sort((a, b) => {
-        if (!a.time && !b.time) return 0; // Ambas sin hora, mantienen su orden
-        if (!a.time) return -1; // 'a' no tiene hora, va primero (arriba)
-        if (!b.time) return 1;  // 'b' no tiene hora, va primero (arriba)
-
-        // Si ambas tienen hora, comparamos normalmente
+        if (!a.time && !b.time) return 0;
+        if (!a.time) return -1;
+        if (!b.time) return 1;
         return a.time.localeCompare(b.time);
     });
 
-    // 3. Control del checkbox maestro
     if (selectAllContainer) {
         selectAllContainer.classList.toggle('hidden', filtered.length === 0);
         selectAll.checked = false;
     }
 
-    // 4. Dibujar la lista
     taskList.innerHTML = filtered.map((t) => `
-        <div class="task-box">
-            <input type="checkbox" class="task-check" data-id="${t.id}">
-            <div class="task-info">
-                <span class="task-text">${t.text}</span>
-                <div class="task-meta">
-                    <!-- Si no hay hora, no renderiza nada en esta sección -->
-                    ${t.time ? `<small>⏰ ${t.time} hs</small>` : ''} 
+        <div class="task-box priority-${t.priority}">
+            <div class="task-main-info">
+                <input type="checkbox" class="task-check" data-id="${t.id}" ${t.completed ? 'checked' : ''}>
+                <div class="task-info">
+                    <span class="task-text">${t.text}</span>
+                    <div class="task-meta">
+                        ${t.time ? `<small>⏰ ${t.time} hs</small>` : ''} 
+                    </div>
                 </div>
+            </div>
+            
+            <div class="priority-btns">
+                <div class="p-btn white-p" onclick="cambiarPrioridad('${t.id}', 'white')"></div>
+                <div class="p-btn orange-p" onclick="cambiarPrioridad('${t.id}', 'orange')"></div>
+                <div class="p-btn red-p" onclick="cambiarPrioridad('${t.id}', 'red')"></div>
             </div>
         </div>
     `).join('');
@@ -75,29 +80,37 @@ function renderTasks() {
     renderCarousel();
 }
 
+// --- 5. FUNCIONES DE ACCIÓN ---
+window.cambiarPrioridad = function (id, nuevoColor) {
+    const index = tasks.findIndex(t => t.id === id);
+    if (index !== -1) {
+        tasks[index].priority = nuevoColor;
+        saveAndRender();
+    }
+};
 
-// --- 5. RENDERIZADO DEL CARRUSEL (CON AUTO-SCROLL AL CENTRO) ---
+function saveAndRender() {
+    localStorage.setItem('myTasks', JSON.stringify(tasks));
+    renderTasks();
+}
+
+// --- 6. CARRUSEL ---
 function renderCarousel() {
     const carousel = document.getElementById('calendar-carousel');
     if (!carousel) return;
     carousel.innerHTML = '';
 
-    const now = new Date();
-    const todayISO = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
-
     for (let i = -5; i < 25; i++) {
         let date = new Date();
-        date.setDate(now.getDate() + i);
+        date.setDate(hoy.getDate() + i);
         const y = date.getFullYear(), m = (date.getMonth() + 1).toString().padStart(2, '0'), d = date.getDate().toString().padStart(2, '0');
         const dateISO = `${y}-${m}-${d}`;
         const dayMonthStr = `${d}/${m}`;
         const hasTask = tasks.some(t => t.date === dateISO);
-        const isToday = dateISO === todayISO;
+        const isToday = dateISO === hoyISO;
 
         const card = document.createElement('div');
         card.className = `day-card ${hasTask ? 'has-task' : ''} ${currentFilter === dateISO ? 'selected' : ''}`;
-
-        // ASIGNACIÓN DE IDS PARA EL SCROLL
         if (isToday) card.id = "today-card";
         if (currentFilter === dateISO) card.id = "active-card";
 
@@ -109,54 +122,33 @@ function renderCarousel() {
         card.onclick = () => {
             currentFilter = dateISO;
             saveAndRender();
-            // Ejecutamos el scroll después de renderizar el cambio
             setTimeout(scrollToActive, 100);
         };
         carousel.appendChild(card);
     }
 }
 
-// --- 6. FUNCIÓN DE SCROLL UNIFICADA ---
 function scrollToActive() {
-    // Intentamos centrar el seleccionado, si no hay (vista "Todas"), centramos "Hoy"
     const target = document.getElementById('active-card') || document.getElementById('today-card');
-    if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    }
+    target?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
 
-// --- RESTO DE UTILIDADES ---
+// --- 7. EVENTOS DE UTILIDAD ---
 deleteBtn.addEventListener('click', () => {
     const checks = document.querySelectorAll('.task-check:checked');
-    if (checks.length === 0) return;
     const idsToRemove = Array.from(checks).map(c => c.dataset.id);
     tasks = tasks.filter(t => !idsToRemove.includes(t.id));
     saveAndRender();
 });
 
-if (selectAll) {
-    selectAll.addEventListener('change', () => {
-        document.querySelectorAll('.task-check').forEach(cb => cb.checked = selectAll.checked);
-    });
-}
+selectAll?.addEventListener('change', () => {
+    document.querySelectorAll('.task-check').forEach(cb => cb.checked = selectAll.checked);
+});
 
 window.scrollCarousel = (dir) => {
     document.getElementById('calendar-carousel').scrollBy({ left: dir * 120, behavior: 'smooth' });
 };
 
-if (showAllBtn) {
-    showAllBtn.onclick = () => {
-        currentFilter = "";
-        saveAndRender();
-        setTimeout(scrollToActive, 100); // Vuelve al centro (Hoy)
-    };
-}
-
-function saveAndRender() {
-    localStorage.setItem('myTasks', JSON.stringify(tasks));
-    renderTasks();
-}
-
-// AL CARGAR: Renderiza y centra el día de hoy
+// --- INICIO ---
 renderTasks();
 setTimeout(scrollToActive, 500);

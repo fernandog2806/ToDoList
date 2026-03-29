@@ -1,10 +1,17 @@
+/* --- 1. VARIABLES Y BASE --- */
 :root {
     --primary: #6366f1;
+    --primary-dark: #4f46e5;
     --danger: #ef4444;
     --danger-light: #fee2e2;
     --bg: #f8fafc;
     --white: #ffffff;
     --text-muted: #64748b;
+    --text-dark: #1e293b;
+
+    /* Colores de Prioridad */
+    --priority-orange: #ffcc66;
+    --priority-red: #ff5c5c;
 }
 
 body {
@@ -13,7 +20,7 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
 .app-container {
@@ -23,6 +30,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    padding-bottom: 40px;
 }
 
 h1 {
@@ -31,7 +39,66 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* --- CARRUSEL Y FLECHAS --- */
+.hidden {
+    display: none !important;
+}
+
+/* --- 2. SECCIÓN DE ENTRADA (INPUTS) --- */
+#input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+#input-area label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+#input-area input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.input-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+#taskInput {
+    flex: 1;
+}
+
+#addBtn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#addBtn:hover {
+    background-color: var(--primary-dark);
+}
+
+#addBtn:active {
+    transform: scale(0.95);
+}
+
+/* --- 3. CARRUSEL DE CALENDARIO --- */
 .carousel-wrapper {
     display: flex;
     align-items: center;
@@ -61,11 +128,10 @@ h1 {
     font-size: 20px;
     cursor: pointer;
     color: var(--primary);
-    padding: 5px;
     font-weight: bold;
 }
 
-/* --- TARJETAS DEL DÍA --- */
+/* Tarjetas del día */
 .day-card {
     position: relative;
     min-width: 55px;
@@ -84,7 +150,7 @@ h1 {
 .day-number {
     font-size: 13px;
     font-weight: bold;
-    color: #1e293b;
+    color: var(--text-dark);
 }
 
 .today-label {
@@ -116,111 +182,29 @@ h1 {
 .day-card.selected .today-label {
     color: white !important;
 }
-/* --- EFECTOS DE MOVIMIENTO (HOVER) --- */
 
-/* 1. Efecto base para todos los días */
 .day-card:hover {
-    background-color: #e0e7ff;
-    /* Un azul muy clarito */
     transform: translateY(-3px);
-    /* Sube un poquito el cuadrado */
     box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
-    border-color: var(--primary);
 }
 
-/* 2. Efecto especial si el día tiene tareas (se pone un rojo más intenso) */
-.day-card.has-task:hover {
-    background-color: #fecaca;
-    /* Rojo un poco más fuerte al pasar el mouse */
-    border-color: var(--danger);
-}
-
-/* 3. Si el día ya está seleccionado (azul), que se oscurezca un poco al pasar el mouse */
-.day-card.selected:hover {
-    background-color: #4f46e5 !important;
-    /* Un azul más oscuro */
-    transform: translateY(-3px);
-}
-
-/* 4. Efecto de "click" (cuando presionas) */
-.day-card:active {
-    transform: scale(0.95);
-    /* Se achica un pelín como si fuera un botón real */
-    transition: 0.1s;
-}
-
-/* --- SECCIONES DE ENTRADA --- */
-#input-area {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
-}
-
-#input-area label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #475569;
-}
-
-#input-area input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
-
-/* GRUPO DE TEXTO + BOTÓN AÑADIR */
-.input-group {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-    margin-top: 5px;
-}
-
-#taskInput {
-    flex: 1;
-    /* Estira el input de texto */
-}
-
-#addBtn {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    padding: 0 15px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
-    font-size: 14px;
-    white-space: nowrap;
-    /* Evita que el texto del botón se rompa */
-}
-
-#addBtn:hover {
-    background-color: #4f46e5;
-}
-
-#addBtn:active {
-    transform: scale(0.95);
-}
-
-/* --- LISTA DE TAREAS --- */
+/* --- 4. LISTA DE TAREAS Y PRIORIDADES --- */
 .task-box {
-    background: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 15px;
     margin-top: 10px;
-    border-radius: 10px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
+}
+
+.task-main-info {
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .task-info {
@@ -228,13 +212,75 @@ h1 {
     flex-direction: column;
 }
 
-.task-meta {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
-    color: var(--text-muted);
+.task-text {
+    font-weight: 500;
 }
 
+.task-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* Clases de Prioridad (Pintan toda la caja) */
+.priority-white {
+    background-color: var(--white);
+    color: var(--text-dark);
+}
+
+.priority-orange {
+    background-color: var(--priority-orange);
+    border-color: #eab308;
+    color: #000;
+}
+
+.priority-red {
+    background-color: var(--priority-red);
+    border-color: #dc2626;
+    color: #fff;
+}
+
+.priority-red .task-meta {
+    color: #fecaca;
+}
+
+/* Meta clara en fondo rojo */
+
+/* Contenedor de Botones de Color */
+.priority-btns {
+    display: flex;
+    flex-direction: row;
+    /* Uno al lado del otro */
+    gap: 6px;
+    margin-left: 10px;
+}
+
+.p-btn {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.p-btn:hover {
+    transform: scale(1.2);
+}
+
+.white-p {
+    background-color: #ffffff;
+}
+
+.orange-p {
+    background-color: var(--priority-orange);
+}
+
+.red-p {
+    background-color: var(--priority-red);
+}
+
+/* --- 5. BOTONES DE ACCIÓN --- */
 #deleteBtn {
     width: 100%;
     padding: 15px;
@@ -244,7 +290,12 @@ h1 {
     border-radius: 10px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+#deleteBtn:hover {
+    background-color: #dc2626;
 }
 
 .secondary-btn {
@@ -256,8 +307,4 @@ h1 {
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
-}
-
-.hidden {
-    display: none !important;
 }
