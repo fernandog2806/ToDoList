@@ -14,6 +14,74 @@
             <h1>Mis tareas</h1>
         </header>
 
+        <!-- NUEVA SECCIÓN DE COLORES (Debajo del título) -->
+<section id="priority-selector-area">
+    <p class="selector-title">Seleccione prioridad:</p>
+    <div class="priority-radio-group">
+
+        <!-- P0 CRÍTICO -->
+        <label class="radio-card">
+            <input type="radio" name="priority" value="red" checked>
+            <span class="pill-dot red-pill">
+                Crítico
+                <span class="tooltip-text">
+                    <strong>🔴 P0 — Crítico / Emergencia</strong><br>
+                    • Impacto: máximo<br>• Urgencia: inmediata<br>
+                    • Ejemplo: sistema caído, riesgo legal o financiero<br>
+                    <em>👉 "Todo está roto o no se puede operar"</em>
+                </span>
+            </span>
+        </label>
+
+        <!-- P1 ALTO -->
+        <label class="radio-card">
+            <input type="radio" name="priority" value="orange">
+            <span class="pill-dot orange-pill">
+                Alto
+                <span class="tooltip-text">
+                    <strong>🟠 P1 — Alto</strong><br>
+                    • Impacto: alto<br>• Urgencia: muy alta<br>
+                    • Ejemplo: funcionalidad clave no funciona<br>
+                    <em>👉 "Funciona mal algo importante"</em>
+                </span>
+            </span>
+        </label>
+
+        <!-- P2 MEDIO -->
+        <label class="radio-card">
+            <input type="radio" name="priority" value="yellow">
+            <span class="pill-dot yellow-pill">
+                Medio
+                <span class="tooltip-text">
+                    <strong>🟡 P2 — Medio</strong><br>
+                    • Impacto: moderado<br>• Urgencia: media<br>
+                    • Ejemplo: bug con workaround (solución temporal)<br>
+                    <em>👉 "Molesta, pero se puede seguir"</em>
+                </span>
+            </span>
+        </label>
+
+        <!-- P3 BAJO -->
+        <label class="radio-card">
+            <input type="radio" name="priority" value="green">
+            <span class="pill-dot green-pill">
+                Bajo
+                <span class="tooltip-text">
+                    <strong>🟢 P3 — Bajo</strong><br>
+                    • Impacto: bajo<br>• Urgencia: baja<br>
+                    • Ejemplo: mejoras o temas estéticos<br>
+                    <em>👉 "Backlog / Cuando haya capacidad"</em>
+                </span>
+            </span>
+        </label>
+
+    </div>
+</section>
+
+
+
+
+
         <!-- SECCIÓN DE ENTRADA -->
         <section id="input-area">
             <label for="taskDate">Agendar para el día:</label>
@@ -27,7 +95,6 @@
                 <button id="addBtn">Añadir</button>
             </div>
         </section>
-
 
         <hr>
 
@@ -55,6 +122,8 @@
             <button id="deleteBtn" class="hidden">Borrar seleccionadas</button>
         </section>
     </main>
+
+    <!-- Asegúrate de que el JS esté al final para que cargue después del HTML -->
     <script src="/js/main.js"></script>
 </body>
 
