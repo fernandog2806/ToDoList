@@ -1,8 +1,9 @@
 /* IMPORTAR FUENTE PROFESIONAL */
-@import url('https://googleapis.com');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
 
-/* --- 1. VARIABLES Y BASE --- */
+/* --- 1. VARIABLES GLOBALES Y ESTILOS BASE --- */
 :root {
+    /* Colores principales y de fondo */
     --primary: #6366f1;
     --primary-dark: #4f46e5;
     --danger: #ef4444;
@@ -26,17 +27,18 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
+    align-items: center; /* 🔹 centra también verticalmente */
     min-height: 100vh;
-    font-family: var(--font-main); /* APLICADA AQUÍ */
+    font-family: var(--font-main);
     color: var(--text-dark);
-    -webkit-font-smoothing: antialiased; /* Letras más suaves */
+    -webkit-font-smoothing: antialiased;
 }
+
 
 .app-container {
     width: 95%;
     max-width: 450px;
-    margin-top: 20px;
-    display: flex;
+    margin: 0 auto;
     flex-direction: column;
     gap: 15px;
     padding-bottom: 40px;
@@ -46,7 +48,8 @@ h1 {
     color: var(--primary);
     text-align: center;
     margin-bottom: 5px;
-    font-weight: 800; /* Más gruesa para resaltar */
+    font-weight: 800;
+    /* Más gruesa para resaltar */
     letter-spacing: -1px;
 }
 
@@ -84,9 +87,9 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 85px;
+    width: 34px;
     height: 34px;
-    border-radius: 50px;
+    border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     font-size: 10px;
@@ -97,15 +100,30 @@ h1 {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.red-pill { background: var(--p-red); }
-.orange-pill { background: var(--p-orange); color: #422006; }
-.yellow-pill { background: var(--p-yellow); color: #422006; }
-.green-pill { background: var(--p-green); }
+.red-pill {
+    background: var(--p-red);
+}
+
+.orange-pill {
+    background: var(--p-orange);
+    color: #422006;
+}
+
+.yellow-pill {
+    background: var(--p-yellow);
+    color: #422006;
+}
+
+.green-pill {
+    background: var(--p-green);
+}
 
 /* Hover y Selección */
-.pill-dot:hover { transform: translateY(-3px); }
+.pill-dot:hover {
+    transform: translateY(-3px);
+}
 
-.radio-card input:checked + .pill-dot {
+.radio-card input:checked+.pill-dot {
     transform: scale(1.1);
     box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
     outline: 3px solid rgba(99, 102, 241, 0.3);
@@ -122,7 +140,7 @@ h1 {
     padding: 15px;
     position: absolute;
     z-index: 100;
-    top: 140%;
+    bottom: 140%;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
@@ -147,21 +165,60 @@ h1 {
 .pill-dot:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
-    top: 130%;
+    bottom: 130%;
 }
 
+/* Colores para las tareas según prioridad */
+.task-p0 {
+    border-left: 5px solid red;
+    background-color: #ffe6e6;
+}
+
+.task-p1 {
+    border-left: 5px solid orange;
+    background-color: #fff2e6;
+}
+
+.task-p2 {
+    border-left: 5px solid yellow;
+    background-color: #ffffe6;
+}
+
+.task-p3 {
+    border-left: 5px solid green;
+    background-color: #e6ffe6;
+}
+
+/* Estilo general para la tarea */
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.task-time {
+    font-size: 0.8rem;
+    color: #888;
+    margin-left: auto;
+    /* Esto empuja la hora al extremo derecho de la tarea */
+    font-weight: bold;
+}
+/* verde bajo */
 /* --- 3. SECCIÓN DE ENTRADA --- */
 #input-area {
     background: var(--white);
     padding: 20px;
     border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-#input-area input {
+/* Formato unificado para inputs y select (desplegable) */
+#input-area input, 
+#input-area select {
     font-family: var(--font-main);
     width: 100%;
     padding: 12px;
@@ -171,15 +228,22 @@ h1 {
     background-color: #f8fafc;
     box-sizing: border-box;
     transition: 0.2s;
+    color: var(--text-dark);
+    cursor: pointer;
 }
 
-#input-area input:focus {
+#input-area input:focus,
+#input-area select:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background-color: white;
 }
 
-#taskInput { background-color: white !important; }
+#taskInput {
+    background-color: white !important;
+    cursor: text !important;
+}
 
 #addBtn {
     font-family: var(--font-main);
@@ -193,7 +257,9 @@ h1 {
     transition: 0.2s;
 }
 
-#addBtn:hover { background-color: var(--primary-dark); }
+#addBtn:hover {
+    background-color: var(--primary-dark);
+}
 
 
 /* FLECHAS DEL CARRUSEL */
@@ -256,7 +322,9 @@ h1 {
 /* Si quieres que los días estén centrados cuando hay pocos */
 /* .calendar-carousel { justify-content: center; } */
 
-.calendar-carousel::-webkit-scrollbar { display: none; }
+.calendar-carousel::-webkit-scrollbar {
+    display: none;
+}
 
 .day-card {
     position: relative;
@@ -274,7 +342,7 @@ h1 {
     margin: 0;
     margin-top: 2px;
     border: 2px solid transparent;
-    
+
 }
 
 .day-card:hover:not(.selected) {
@@ -327,47 +395,98 @@ h1 {
     background-color: white !important;
     box-shadow: 0 0 4px rgba(99, 102, 241, 0.5);
 }
+
 .day-card.selected:hover {
-    background-color: var(--primary-dark) !important; /* Se oscurece el violeta */
+    background-color: var(--primary-dark) !important;
+    /* Se oscurece el violeta */
     transform: scale(1.18);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
+
 /* --- 5. LISTA DE TAREAS --- */
 .task-box {
     display: flex;
-    padding: 16px;
-    margin-top: 10px;
-    border-radius: 14px;
-    border-left: 8px solid transparent;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border-left: 6px solid transparent;
     background: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     font-weight: 500;
 }
 
-.priority-red { background-color: #fff1f2; border-color: #ef4444; }
-.priority-orange { background-color: #fff7ed; border-color: #f97316; }
-.priority-yellow { background-color: #fefce8; border-color: #facc15; }
-.priority-green { background-color: #f0fdf4; border-color: #22c55e; }
+.priority-red {
+    background-color: #fff1f2;
+    border-color: #ef4444;
+}
 
-.task-text { 
-    font-size: 15px; 
+.priority-orange {
+    background-color: #fff7ed;
+    border-color: #f97316;
+}
+
+.priority-yellow {
+    background-color: #fefce8;
+    border-color: #facc15;
+}
+
+.priority-green {
+    background-color: #f0fdf4;
+    border-color: #22c55e;
+}
+
+.task-text {
+    font-size: 15px;
     line-height: 1.5;
 }
 
 /* --- 6. BOTONES DE ACCIÓN --- */
+/* Contenedor para "Seleccionar todos" y "Borrar seleccionadas" */
+#select-all-container {
+    display: flex;
+    justify-content: space-between; /* Empuja el botón a la derecha */
+    align-items: center; /* Centra verticalmente los elementos */
+    margin-top: 15px; /* Espacio superior */
+    margin-bottom: 10px; /* Espacio inferior antes de la lista de tareas */
+    padding: 0 5px; /* Pequeño padding horizontal para balance visual */
+}
+
+/* Agrupación del checkbox y label */
+#select-all-container div {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el checkbox y el texto */
+}
+
+/* Estilo para el checkbox */
+#select-all-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Estilo para la etiqueta del checkbox */
+#select-all-container label {
+    font-size: 14px;
+    color: var(--text-dark);
+    font-weight: 500;
+    cursor: pointer;
+}
+
 #deleteBtn {
     font-family: var(--font-main);
-    width: 100%;
-    padding: 15px;
+    width: auto; /* Elimina el ancho del 100% */
+    padding: 8px 15px; /* Reduce el padding para un botón más pequeño */
     background: var(--danger);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px; /* Ajusta el radio de borde para que coincida con el tamaño */
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size: 12px;
-    margin-top: 20px;
+    font-size: 11px; /* Reduce ligeramente el tamaño de la fuente */
+    margin-top: 0; /* Elimina el margen superior */
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -376,21 +495,6 @@ h1 {
     background-color: #dc2626;
     transform: translateY(-2px);
 }
-
-/* --- DÍAS CON TAREAS (Rojo Claro) --- */
-
-/* 1. Fondo rojo claro para días con tareas que NO están seleccionados */
-.day-card.has-task:not(.selected) {
-    background-color: #fee2e2; /* Un rojo/rosa muy suave */
-    border: 1.5px solid #fca5a5; /* Borde sutil rojo */
-}
-
-/* 2. Color de los números y etiquetas en días con tareas */
-.day-card.has-task:not(.selected) .day-number,
-.day-card.has-task:not(.selected) .today-label {
-    color: #ef4444; /* Texto rojo para que contraste */
-}
-
 /* --- PRIORIDAD ABSOLUTA: EL SELECCIONADO (VIOLETA) MANDA --- */
 
 /* Cuando un día está seleccionado, NO importa si tiene tarea, DEBE ser violeta */
@@ -446,4 +550,24 @@ h1 {
 .day-card.today.selected::before {
     background-color: white !important;
 
+}
+/* Asegúrate de que los nombres coincidan con la clase del JS: priority-p0, priority-p1... */
+.task-box.priority-p0 {
+    border-left: 6px solid #ff4d4d !important;
+    background-color: #fff5f5 !important;
+}
+
+.task-box.priority-p1 {
+    border-left: 6px solid #ffa64d !important;
+    background-color: #fff9f5 !important;
+}
+
+.task-box.priority-p2 {
+    border-left: 6px solid #ffdb4d !important;
+    background-color: #fffef5 !important;
+}
+
+.task-box.priority-p3 {
+    border-left: 6px solid #7acc7a !important;
+    background-color: #f5fff5 !important;
 }

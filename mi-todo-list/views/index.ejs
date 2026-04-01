@@ -14,18 +14,42 @@
             <h1>Mis tareas</h1>
         </header>
 
-        <!-- NUEVA SECCIÓN DE COLORES (Debajo del título) -->
+        <!-- SECCIÓN DE ENTRADA -->
+        <section id="input-area">
+            <label for="taskDate">Agendar para el día:</label>
+            <input type="date" id="taskDate">
+
+            <label for="taskTime">Agendar para la hora: (opcional)</label>
+            <input type="time" id="taskTime">
+
+            <label for="taskPriority">Seleccione importancia:</label>
+            <select id="taskPriority">
+                <option value="p0">🔴 P0 — Crítico</option>
+                <option value="p1">🟠 P1 — Alto</option>
+                <option value="p2">🟡 P2 — Medio</option>
+                <option value="p3">🟢 P3 — Bajo</option>
+            </select>
+
+            <div class="input-group">
+                <input type="text" id="taskInput" placeholder="¿Qué quieres hacer?">
+                <button id="addBtn">Añadir</button>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- SECCIÓN DE FILTRO CON CARRUSEL -->
 <section id="priority-selector-area">
     <p class="selector-title">Seleccione prioridad del:</p>
     <div class="priority-radio-group">
 
         <!-- P0 CRÍTICO -->
         <label class="radio-card">
-            <input type="radio" name="priority" value="red" checked>
+            <input type="radio" name="priority" value="p0" checked>
             <span class="pill-dot red-pill">
-                Crítico
+                P0
                 <span class="tooltip-text">
-                    <strong>🔴 P0 — Crítico / Emergencia</strong><br>
+                    <strong>🔴 Crítico / Emergencia</strong><br>
                     • Impacto: máximo<br>• Urgencia: inmediata<br>
                     • Ejemplo: sistema caído, riesgo legal o financiero<br>
                     <em>👉 "Todo está roto o no se puede operar"</em>
@@ -35,11 +59,11 @@
 
         <!-- P1 ALTO -->
         <label class="radio-card">
-            <input type="radio" name="priority" value="orange">
+            <input type="radio" name="priority" value="p1">
             <span class="pill-dot orange-pill">
-                Alto
+                P1
                 <span class="tooltip-text">
-                    <strong>🟠 P1 — Alto</strong><br>
+                    <strong>🟠 Alto</strong><br>
                     • Impacto: alto<br>• Urgencia: muy alta<br>
                     • Ejemplo: funcionalidad clave no funciona<br>
                     <em>👉 "Funciona mal algo importante"</em>
@@ -49,11 +73,11 @@
 
         <!-- P2 MEDIO -->
         <label class="radio-card">
-            <input type="radio" name="priority" value="yellow">
+            <input type="radio" name="priority" value="p2">
             <span class="pill-dot yellow-pill">
-                Medio
+                P2
                 <span class="tooltip-text">
-                    <strong>🟡 P2 — Medio</strong><br>
+                    <strong>🟡 Medio</strong><br>
                     • Impacto: moderado<br>• Urgencia: media<br>
                     • Ejemplo: bug con workaround (solución temporal)<br>
                     <em>👉 "Molesta, pero se puede seguir"</em>
@@ -63,11 +87,11 @@
 
         <!-- P3 BAJO -->
         <label class="radio-card">
-            <input type="radio" name="priority" value="green">
+            <input type="radio" name="priority" value="p3">
             <span class="pill-dot green-pill">
-                Bajo
+                P3
                 <span class="tooltip-text">
-                    <strong>🟢 P3 — Bajo</strong><br>
+                    <strong>🟢 Bajo</strong><br>
                     • Impacto: bajo<br>• Urgencia: baja<br>
                     • Ejemplo: mejoras o temas estéticos<br>
                     <em>👉 "Backlog / Cuando haya capacidad"</em>
@@ -78,28 +102,6 @@
     </div>
 </section>
 
-
-
-
-
-        <!-- SECCIÓN DE ENTRADA -->
-        <section id="input-area">
-            <label for="taskDate">Agendar para el día:</label>
-            <input type="date" id="taskDate">
-
-            <label for="taskTime">Agendar para la hora: (opcional)</label>
-            <input type="time" id="taskTime">
-
-<div class="input-group">
-    <input type="text" id="taskInput" placeholder="¿Qué quieres hacer?">
-    <button id="addBtn">Añadir</button>
-</div>
-
-        </section>
-
-        <hr>
-
-        <!-- SECCIÓN DE FILTRO CON CARRUSEL -->
         <section id="filter-area">
             <label>🔍 Ver tareas del día:</label>
             <div class="carousel-wrapper">
@@ -111,20 +113,21 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE LISTA -->
+        <!-- SECCIÓN DE LISTA MEJORADA -->
         <section id="task-area">
-            <div id="select-all-container" class="hidden">
+        <div id="select-all-container">
+            <div>
                 <input type="checkbox" id="selectAll">
                 <label for="selectAll">Seleccionar todos</label>
             </div>
+            <button id="deleteBtn" class="hidden">Borrar seleccionadas</button>
+        </div>
+
 
             <div id="taskList"></div>
-
-            <button id="deleteBtn" class="hidden">Borrar seleccionadas</button>
         </section>
     </main>
 
-    <!-- Asegúrate de que el JS esté al final para que cargue después del HTML -->
     <script src="/js/main.js"></script>
 </body>
 

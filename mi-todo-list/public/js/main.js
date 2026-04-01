@@ -1,4 +1,4 @@
-// --- 1. ELEMENTOS DEL DOM ---
+/* --- CONFIGURACIÓN E INTERFAZ: Referencias a los elementos del DOM --- */
 const taskInput = document.getElementById('taskInput');
 const taskDate = document.getElementById('taskDate');
 const taskTime = document.getElementById('taskTime');
@@ -7,19 +7,26 @@ const deleteBtn = document.getElementById('deleteBtn');
 const selectAll = document.getElementById('selectAll');
 const selectAllContainer = document.getElementById('select-all-container');
 const addBtn = document.getElementById('addBtn');
+const taskPriority = document.getElementById('taskPriority');
 
-// --- 2. ESTADO INICIAL ---
+/* --- ESTADO Y FECHAS: Inicialización de datos y configuración de calendario --- */
 let tasks = JSON.parse(localStorage.getItem('myTasks')) || [];
-
 const hoy = new Date();
-const hoyISO = `${hoy.getFullYear()}-${(hoy.getMonth() + 1).toString().padStart(2, '0')}-${hoy.getDate().toString().padStart(2, '0')}`;
+
+const getISODate = (date) => {
+    const y = date.getFullYear();
+    const m = (date.getMonth() + 1).toString().padStart(2, '0');
+    const d = date.getDate().toString().padStart(2, '0');
+    return `${y}-${m}-${d}`;
+};
+
+const hoyISO = getISODate(hoy);
 taskDate.value = hoyISO;
 let currentFilter = hoyISO;
 
-// --- 3. LÓGICA DE AGREGAR TAREAS ---
+/* --- CONTROLADOR DE TAREAS: Lógica para añadir y procesar nuevas actividades --- */
 function handleAddTask() {
-    // Lee el color seleccionado arriba para la nueva tarea
-    const prioridadElegida = document.querySelector('input[name="priority"]:checked')?.value || 'green';
+    const prioridadElegida = taskPriority.value;
 
     if (taskInput.value.trim() !== "" && taskDate.value !== "") {
         tasks.push({
@@ -27,10 +34,12 @@ function handleAddTask() {
             text: taskInput.value.trim(),
             date: taskDate.value,
             time: taskTime.value || null,
-            completed: false, // Usamos esto para el "Check" de selección
+            completed: false,
             priority: prioridadElegida
         });
+
         saveAndRender();
+
         taskInput.value = "";
         taskTime.value = "";
     } else if (taskDate.value === "") {
@@ -41,11 +50,10 @@ function handleAddTask() {
 addBtn?.addEventListener('click', handleAddTask);
 taskInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddTask(); });
 
-// --- 4. RENDERIZADO DE TAREAS ---
+/* --- RENDERIZADO DE INTERFAZ: Generación dinámica del listado de tareas --- */
 function renderTasks() {
     let filtered = currentFilter ? tasks.filter(t => t.date === currentFilter) : tasks;
 
-    // Ordenar por hora
     filtered.sort((a, b) => {
         if (!a.time && !b.time) return 0;
         if (!a.time) return -1;
@@ -55,35 +63,36 @@ function renderTasks() {
 
     if (selectAllContainer) {
         selectAllContainer.classList.toggle('hidden', filtered.length === 0);
-        // El "Seleccionar todos" se marca solo si todos los visibles están marcados
         selectAll.checked = filtered.length > 0 && filtered.every(t => t.completed);
     }
 
-    // Renderizamos la lista sin los 3 botones internos, ahora se controla desde arriba
-    taskList.innerHTML = filtered.map((t) => `
-        <div class="task-box priority-${t.priority}">
-            <div class="task-main-info">
-                <input type="checkbox" class="task-check" 
-                    data-id="${t.id}" 
-                    ${t.completed ? 'checked' : ''} 
-                    onchange="toggleCheck('${t.id}')">
-                <div class="task-info">
-                    <span class="task-text">${t.text}</span>
-                    <div class="task-meta">
-                        ${t.time ? `<small>⏰ ${t.time} hs</small>` : ''} 
+    // Si no hay tareas para el día seleccionado, mostramos un mensaje informativo
+    if (filtered.length === 0) {
+        taskList.innerHTML = `<p style="text-align: center; color: var(--text-muted); margin-top: 20px; font-size: 14px;">✨ No hay tareas agendadas para este día.</p>`;
+    } else {
+        taskList.innerHTML = filtered.map((t) => `
+            <div class="task-box priority-${t.priority}">
+                <div class="task-main-info">
+                    <input type="checkbox" class="task-check"
+                        data-id="${t.id}" 
+                        ${t.completed ? 'checked' : ''} 
+                        onchange="toggleCheck('${t.id}')">
+                    <div class="task-info">
+                        <span class="task-text ${t.completed ? 'completed' : ''}">${t.text}</span>
+                        <div class="task-meta">
+                            ${t.time ? `<small>⏰ ${t.time} hs</small>` : ''} 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `).join('');
+    }
 
     deleteBtn.classList.toggle('hidden', filtered.length === 0);
     renderCarousel();
 }
 
-// --- 5. FUNCIONES DE ACCIÓN ---
-
-// Cambiar estado del Checkbox en la memoria
+/* --- PERSISTENCIA Y SINCRONIZACIÓN: Manejo de LocalStorage y estados de completado --- */
 window.toggleCheck = function (id) {
     const task = tasks.find(t => t.id === id);
     if (task) {
@@ -97,46 +106,36 @@ function saveAndRender() {
     renderTasks();
 }
 
-// --- 6. CARRUSEL (EDITADO Y COMPLETO) ---
+/* --- CALENDARIO DINÁMICO: Generación y navegación del carrusel de fechas --- */
 function renderCarousel() {
     const carousel = document.getElementById('calendar-carousel');
     if (!carousel) return;
     carousel.innerHTML = '';
 
+    // Genera un rango de 30 días (5 pasados, 25 futuros)
     for (let i = -5; i < 25; i++) {
         let date = new Date();
         date.setDate(hoy.getDate() + i);
 
-        // Formateo de fecha para ID y comparación
-        const y = date.getFullYear();
-        const m = (date.getMonth() + 1).toString().padStart(2, '0');
-        const d = date.getDate().toString().padStart(2, '0');
-        const dateISO = `${y}-${m}-${d}`;
-        const dayMonthStr = `${d}/${m}`;
+        const dateISO = getISODate(date);
+        const dayMonthStr = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
 
-        // Variables de estado
         const hasTask = tasks.some(t => t.date === dateISO);
         const isToday = dateISO === hoyISO;
+        const isSelected = currentFilter === dateISO;
 
         const card = document.createElement('div');
 
-        // ASIGNACIÓN DE CLASES (Aquí está la lógica del punto 'today')
-        card.className = `day-card 
-            ${hasTask ? 'has-task' : ''} 
-            ${currentFilter === dateISO ? 'selected' : ''} 
-            ${isToday ? 'today' : ''}`.replace(/\s+/g, ' ').trim();
+        card.className = `day-card ${hasTask ? 'has-task' : ''} ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`;
 
-        // IDs para el scroll automático
         if (isToday) card.id = "today-card";
-        if (currentFilter === dateISO) card.id = "active-card";
+        if (isSelected) card.id = "active-card";
 
-        // Contenido de la tarjeta
         card.innerHTML = `
             ${isToday ? '<span class="today-label">(HOY)</span>' : ''}
             <span class="day-number">${dayMonthStr}</span>
         `;
 
-        // Evento de clic
         card.onclick = () => {
             currentFilter = dateISO;
             saveAndRender();
@@ -147,23 +146,24 @@ function renderCarousel() {
     }
 }
 
-
 function scrollToActive() {
+    // Centra el calendario en el día activo
     const target = document.getElementById('active-card') || document.getElementById('today-card');
     target?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
 
-// --- 7. EVENTOS DE UTILIDAD ---
+/* --- 7. UTILIDADES Y EVENTOS GLOBALES --- */
 
-// MAGIA: Al tocar una pastilla de arriba, pinta todas las tareas marcadas del día
+// "Magia": Al tocar un botón de prioridad, cambia la importancia de las tareas marcadas del día
 document.querySelectorAll('input[name="priority"]').forEach(radio => {
     radio.addEventListener('click', () => {
-        const nuevoColor = radio.value;
-        // Filtramos solo las tareas que tienen el check y son del día actual
+        const nuevaPrioridad = radio.value;
+        
+        // Filtra tareas completadas del día que estás viendo
         const marcadas = tasks.filter(t => t.completed && t.date === currentFilter);
 
         if (marcadas.length > 0) {
-            marcadas.forEach(t => t.priority = nuevoColor);
+            marcadas.forEach(t => t.priority = nuevaPrioridad);
             saveAndRender();
         }
     });
@@ -180,16 +180,15 @@ selectAll?.addEventListener('change', () => {
     saveAndRender();
 });
 
-// Borrar solo las seleccionadas
-deleteBtn.addEventListener('click', () => {
+deleteBtn?.addEventListener('click', () => {
     tasks = tasks.filter(t => !t.completed);
     saveAndRender();
 });
 
-window.scrollCarousel = (dir) => {
-    document.getElementById('calendar-carousel').scrollBy({ left: dir * 120, behavior: 'smooth' });
+window.scrollCarousel = (direction) => {
+    document.getElementById('calendar-carousel').scrollBy({ left: direction * 120, behavior: 'smooth' });
 };
 
-// --- INICIO ---
+/* --- ARRANQUE DE LA APLICACIÓN --- */
 renderTasks();
 setTimeout(scrollToActive, 500);
