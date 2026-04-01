@@ -1,25 +1,24 @@
+/* IMPORTAR FUENTE PROFESIONAL */
+@import url('https://googleapis.com');
+
 /* --- 1. VARIABLES Y BASE --- */
 :root {
     --primary: #6366f1;
-    /* Violeta del botón Añadir */
     --primary-dark: #4f46e5;
     --danger: #ef4444;
-    --danger-dark: #dc2626;
     --danger-light: #fee2e2;
     --bg: #f8fafc;
     --white: #ffffff;
     --text-muted: #64748b;
     --text-dark: #1e293b;
+    /* Definimos la fuente principal */
+    --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
-    /* Colores de Prioridad (Fuertes para las pastillas) */
-    --p-red: #ef4444;
-    --p-orange: #f97316;
-    --p-yellow: #facc15;
-    --p-green: #22c55e;
-}
-
-* {
-    box-sizing: border-box;
+    /* Colores de Prioridad (Gradients) */
+    --p-red: linear-gradient(135deg, #ff4b2b, #ff416c);
+    --p-orange: linear-gradient(135deg, #f09819, #edde5d);
+    --p-yellow: linear-gradient(135deg, #f7971e, #ffd200);
+    --p-green: linear-gradient(135deg, #11998e, #38ef7d);
 }
 
 body {
@@ -28,7 +27,9 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: var(--font-main); /* APLICADA AQUÍ */
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased; /* Letras más suaves */
 }
 
 .app-container {
@@ -45,384 +46,33 @@ h1 {
     color: var(--primary);
     text-align: center;
     margin-bottom: 5px;
-    font-size: 2rem;
+    font-weight: 800; /* Más gruesa para resaltar */
+    letter-spacing: -1px;
 }
 
 .hidden {
     display: none !important;
 }
 
-/* --- 2. SELECTOR DE PRIORIDAD (PASTILLAS DE COLORES) --- */
+/* --- 2. SELECTOR DE PRIORIDAD (PREMIUM CON TOOLTIPS) --- */
 #priority-selector-area {
-    margin: 10px 0;
+    margin-bottom: 10px;
     text-align: center;
-    margin-bottom: 5px;
 }
 
 .selector-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 10px;
-    text-align: left;
-    padding-left: 10px;
-}
-
-.priority-radio-group {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.radio-card {
-    cursor: pointer;
-}
-
-.radio-card input {
-    display: none;
-    /* Escondemos el radio button original */
-}
-
-/* Diseño de la Pastilla */
-.pill-dot {
-    display: block;
-    width: 55px;
-    /* Ancho de la pastilla */
-    height: 22px;
-    /* Alto de la pastilla */
-    border-radius: 20px;
-    transition: 0.3s;
-    border: 2px solid transparent;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.pill-dot:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
-
-.red-pill {
-    background: linear-gradient(135deg, #ff5f6d, #ff3131);
-}
-
-.orange-pill {
-    background: linear-gradient(135deg, #ffb347, #ff8c00);
-}
-
-.yellow-pill {
-    background-color: var(--p-yellow);
-}
-
-.green-pill {
-    background-color: var(--p-green);
-}
-
-/* Efecto al seleccionar */
-.radio-card input:checked+.pill-dot {
-    transform: scale(1.15);
-    border-color: #334155;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* --- 3. SECCIÓN DE ENTRADA (INPUTS) --- */
-#input-area {
-    background: var(--white);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-#input-area label {
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 800;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.3px;
-}
-
-#input-area input,
-#input-area select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    font-size: 15px;
-    background-color: #f8f9fa;
-    transition: all 0.2s ease;
-}
-
-#input-area input:focus,
-#input-area select:focus {
-    outline: none;
-    border-color: var(--primary);
-    background-color: var(--white);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-
-.input-group {
-    display: flex;
-    gap: 8px;
-}
-
-#taskInput {
-    flex: 1;
-    background-color: var(--white) !important;
-}
-
-#addBtn {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    padding: 0 25px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-#addBtn:hover {
-    background-color: var(--primary-dark);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-}
-
-#addBtn:active {
-    transform: scale(0.98);
-}
-
-/* --- 4. CARRUSEL DE CALENDARIO --- */
-.carousel-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--white);
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.carousel-wrapper button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.carousel-wrapper button:hover {
-    background: var(--primary-dark);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-}
-
-.calendar-carousel {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
-    flex: 1;
-    padding: 4px 0;
-}
-
-.calendar-carousel::-webkit-scrollbar {
-    display: none;
-}
-
-.day-card {
-    min-width: 55px;
-    height: 55px;
-    background: #f1f5f9;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-    border: 2px solid transparent;
-    font-weight: 500;
-    color: var(--text-dark);
-}
-
-.day-card:hover {
-    background: #e2e8f0;
-    transform: translateY(-2px);
-}
-
-.day-card.selected {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary-dark);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-}
-
-.day-card.has-task::before {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 4px;
-    background: var(--primary);
-    border-radius: 50%;
-    margin-bottom: 2px;
-}
-
-.day-card.selected.has-task::before {
-    background: white;
-}
-
-.today-label {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--primary);
-    text-transform: uppercase;
-    margin-bottom: 2px;
-}
-
-.day-card.selected .today-label {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-/* --- 5. LISTA DE TAREAS --- */
-.task-box {
-    display: flex;
-    padding: 15px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border-left: 5px solid transparent;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-.task-text {
-    font-weight: 500;
-}
-
-/* Tarea tachada */
-.task-check:checked+.task-info .task-text {
-    text-decoration: line-through;
-    opacity: 0.5;
-}
-
-/* COLORES DE LAS TAREAS (Fondo claro + Borde fuerte) */
-.priority-red {
-    background-color: #fee2e2;
-    border-color: var(--p-red);
-}
-
-.priority-orange {
-    background-color: #ffedd5;
-    border-color: var(--p-orange);
-}
-
-.priority-yellow {
-    background-color: #fef9c3;
-    border-color: var(--p-yellow);
-}
-
-.priority-green {
-    background-color: #dcfce7;
-    border-color: var(--p-green);
-}
-
-/* --- 6. BOTONES DE ACCIÓN --- */
-#deleteBtn {
-    width: 100%;
-    padding: 15px;
-    background: var(--danger);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    margin-top: 20px;
-    cursor: pointer;
-}
-
-/* --- 5. LISTA DE TAREAS --- */
-.task-box {
-    display: flex;
-    padding: 15px;
-    margin-top: 10px;
-    border-radius: 12px;
-    border-left: 8px solid transparent;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    transition: 0.3s ease;
-}
-
-/* QUITAMOS EL TEXT-DECORATION: LINE-THROUGH */
-.task-check:checked+.task-info .task-text {
-    text-decoration: none;
-    /* Sin tachado */
-    opacity: 1;
-    /* Color pleno */
-}
-
-/* Colores de las tareas (Fondo claro + Borde fuerte) */
-.priority-red {
-    background-color: #fee2e2;
-    border-color: #ef4444;
-}
-
-.priority-orange {
-    background-color: #ffedd5;
-    border-color: #f97316;
-}
-
-.priority-yellow {
-    background-color: #fef9c3;
-    border-color: #facc15;
-}
-
-.priority-green {
-    background-color: #dcfce7;
-    border-color: #22c55e;
-}
-/* Quitamos el tachado del texto */
-.task-check:checked+.task-info .task-text {
-    text-decoration: none !important;
-    color: inherit;
-    /* Mantiene el color negro o blanco según la prioridad */
-    opacity: 1;
-}
-
-/* Opcional: Un pequeño efecto para saber qué tarea está seleccionada */
-.task-check:checked~.task-info {
-    transform: translateX(5px);
-    transition: 0.2s;
-}
-/* --- SELECTOR DE PRIORIDAD ESTILO PREMIUM --- */
-#priority-selector-area {
-    margin-top: 10px;
-    text-align: center;
-}
-
-.selector-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: #475569;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 12px;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
 }
 
 .priority-radio-group {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    /* Espaciado más prolijo */
+    gap: 10px;
 }
 
 .radio-card input {
@@ -430,63 +80,41 @@ h1 {
 }
 
 .pill-dot {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 75px;
-    height: 32px;
+    width: 85px;
+    height: 34px;
     border-radius: 50px;
-    /* Redondeado perfecto */
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 11px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 10px;
     font-weight: 800;
     color: white;
     text-transform: uppercase;
-    border: 2px solid transparent;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Colores con degradado para mayor profundidad */
-.red-pill {
-    background: linear-gradient(135deg, #ff5f6d, #ff3131);
-}
+.red-pill { background: var(--p-red); }
+.orange-pill { background: var(--p-orange); color: #422006; }
+.yellow-pill { background: var(--p-yellow); color: #422006; }
+.green-pill { background: var(--p-green); }
 
-.orange-pill {
-    background: linear-gradient(135deg, #ffb347, #ff8c00);
-}
+/* Hover y Selección */
+.pill-dot:hover { transform: translateY(-3px); }
 
-.yellow-pill {
-    background: linear-gradient(135deg, #fceabb, #f8d800);
-    color: #422006;
-}
-
-.green-pill {
-    background: linear-gradient(135deg, #42e695, #3bb2b8);
-}
-
-/* Efecto Hover (Al pasar el mouse) */
-.pill-dot:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
-
-/* Efecto de Selección: La pastilla se ilumina y crece */
-.radio-card input:checked+.pill-dot {
+.radio-card input:checked + .pill-dot {
     transform: scale(1.1);
-    border-color: #6366f1;
-    /* Borde violeta como tu botón Añadir */
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-}
-/* --- TOOLTIP HACIA ABAJO --- */
-.pill-dot {
-    position: relative;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    outline: 3px solid rgba(99, 102, 241, 0.3);
 }
 
+/* --- TOOLTIP (CUADRO DE INFO ABAJO) --- */
 .tooltip-text {
     visibility: hidden;
     width: 240px;
-    /* Un poquito más ancho para que se lea mejor */
     background-color: #1e293b;
     color: #fff;
     text-align: left;
@@ -494,43 +122,18 @@ h1 {
     padding: 15px;
     position: absolute;
     z-index: 100;
-
-    /* CAMBIO CLAVE: Ahora aparece debajo (125% del botón) */
     top: 140%;
     left: 50%;
     transform: translateX(-50%);
-
     opacity: 0;
     transition: all 0.3s ease;
-    font-size: 11px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.6;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     pointer-events: none;
-    border: 1px solid #334155;
+    text-transform: none;
 }
 
-/* La flechita ahora apunta HACIA ARRIBA */
-.tooltip-text::after {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    /* Ubicada en el borde superior del cartel */
-    left: 50%;
-    margin-left: -8px;
-    border-width: 8px;
-    border-style: solid;
-    border-color: transparent transparent #1e293b transparent;
-}
-
-/* MOSTRAR AL PASAR EL MOUSE (Con un pequeño efecto de subida) */
-.pill-dot:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-    top: 130%;
-    /* Sube un poquito al aparecer */
-}
-
-/* Estilos internos del cartel */
 .tooltip-text strong {
     font-size: 13px;
     display: block;
@@ -538,4 +141,309 @@ h1 {
     color: #f1f5f9;
     border-bottom: 1px solid #475569;
     padding-bottom: 5px;
+    font-weight: 700;
+}
+
+.pill-dot:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    top: 130%;
+}
+
+/* --- 3. SECCIÓN DE ENTRADA --- */
+#input-area {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#input-area input {
+    font-family: var(--font-main);
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #f8fafc;
+    box-sizing: border-box;
+    transition: 0.2s;
+}
+
+#input-area input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+#taskInput { background-color: white !important; }
+
+#addBtn {
+    font-family: var(--font-main);
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#addBtn:hover { background-color: var(--primary-dark); }
+
+
+/* FLECHAS DEL CARRUSEL */
+.nav-btn {
+    font-family: var(--font-main);
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    padding: 2 8;
+}
+
+.nav-btn:hover {
+    background-color: var(--primary-dark);
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
+}
+
+.nav-btn:active {
+    transform: scale(0.95);
+}
+
+.carousel-wrapper {
+    display: flex;
+    justify-content: center;
+    /* Centra el carrusel horizontalmente */
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 15px 12px;
+    /* Más padding arriba/abajo para que el borde NO se corte */
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    /* Asegura que ocupe todo el ancho disponible */
+    box-sizing: border-box;
+}
+
+.calendar-carousel {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* Un pequeño padding interno evita que el borde se corte al escalar */
+    padding: 6px 2px;
+    align-items: center;
+}
+
+/* Si quieres que los días estén centrados cuando hay pocos */
+/* .calendar-carousel { justify-content: center; } */
+
+.calendar-carousel::-webkit-scrollbar { display: none; }
+
+.day-card {
+    position: relative;
+    min-width: 48px;
+    height: 48px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin: 0;
+    margin-top: 2px;
+    border: 2px solid transparent;
+    
+}
+
+.day-card:hover:not(.selected) {
+    background-color: #e2e8f0;
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.day-number {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.today-label {
+    margin-top: 10px !important;
+    /* Esto evita que el texto suba y toque el punto */
+    font-size: 8px;
+    font-weight: 800;
+}
+
+/* VIOLETA MANDA SOBRE ROJO AL SELECCIONAR */
+.day-card.selected {
+    background-color: var(--primary) !important;
+    border-color: var(--primary-dark) !important;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    z-index: 10;
+}
+
+.day-card.selected .day-number,
+.day-card.selected .today-label {
+    color: white !important;
+}
+
+/* PUNTO EN DÍA DE HOY - 8px VISIBLE */
+#today-card::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: block;
+}
+
+#today-card.selected::before {
+    background-color: white !important;
+    box-shadow: 0 0 4px rgba(99, 102, 241, 0.5);
+}
+.day-card.selected:hover {
+    background-color: var(--primary-dark) !important; /* Se oscurece el violeta */
+    transform: scale(1.18);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+/* --- 5. LISTA DE TAREAS --- */
+.task-box {
+    display: flex;
+    padding: 16px;
+    margin-top: 10px;
+    border-radius: 14px;
+    border-left: 8px solid transparent;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    font-weight: 500;
+}
+
+.priority-red { background-color: #fff1f2; border-color: #ef4444; }
+.priority-orange { background-color: #fff7ed; border-color: #f97316; }
+.priority-yellow { background-color: #fefce8; border-color: #facc15; }
+.priority-green { background-color: #f0fdf4; border-color: #22c55e; }
+
+.task-text { 
+    font-size: 15px; 
+    line-height: 1.5;
+}
+
+/* --- 6. BOTONES DE ACCIÓN --- */
+#deleteBtn {
+    font-family: var(--font-main);
+    width: 100%;
+    padding: 15px;
+    background: var(--danger);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#deleteBtn:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+}
+
+/* --- DÍAS CON TAREAS (Rojo Claro) --- */
+
+/* 1. Fondo rojo claro para días con tareas que NO están seleccionados */
+.day-card.has-task:not(.selected) {
+    background-color: #fee2e2; /* Un rojo/rosa muy suave */
+    border: 1.5px solid #fca5a5; /* Borde sutil rojo */
+}
+
+/* 2. Color de los números y etiquetas en días con tareas */
+.day-card.has-task:not(.selected) .day-number,
+.day-card.has-task:not(.selected) .today-label {
+    color: #ef4444; /* Texto rojo para que contraste */
+}
+
+/* --- PRIORIDAD ABSOLUTA: EL SELECCIONADO (VIOLETA) MANDA --- */
+
+/* Cuando un día está seleccionado, NO importa si tiene tarea, DEBE ser violeta */
+.day-card.selected {
+    background-color: var(--primary) !important;
+    border-color: var(--primary-dark) !important;
+    transform: scale(1.1) translateY(-2px);
+    /* Un poco de escala y subida */
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    z-index: 10;
+}
+
+/* Forzamos texto blanco en selección, incluso si hay clase has-task */
+.day-card.selected .day-number,
+.day-card.selected .today-label {
+    color: white !important;
+}
+
+/* --- DÍA CON TAREA (SOLO SI NO ESTÁ SELECCIONADO) --- */
+.day-card.has-task:not(.selected) {
+    background-color: #fee2e2 !important;
+    /* Rojo claro */
+    border: 2px solid #ef4444 !important;
+    /* Borde rojo visible */
+}
+
+.day-card.has-task:not(.selected) .day-number,
+.day-card.has-task:not(.selected) .today-label {
+    color: #ef4444 !important;
+}
+
+/* --- LÓGICA DEL PUNTO (HOY) CON TAREAS --- */
+
+/* El punto de HOY: Violeta si tiene tarea o está normal (sin seleccionar) */
+.day-card.today::before {
+    content: '';
+    position: absolute;
+    /* Bajamos de 8px a 5px para que suba más */
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    transition: background-color 0.3s ease;
+    display: block;
+    z-index: 20;
+    /* Asegura que esté por encima de todo */
+}
+
+/* El punto de HOY se vuelve BLANCO solo al seleccionar */
+.day-card.today.selected::before {
+    background-color: white !important;
+
 }

@@ -97,7 +97,7 @@ function saveAndRender() {
     renderTasks();
 }
 
-// --- 6. CARRUSEL ---
+// --- 6. CARRUSEL (EDITADO Y COMPLETO) ---
 function renderCarousel() {
     const carousel = document.getElementById('calendar-carousel');
     if (!carousel) return;
@@ -106,30 +106,47 @@ function renderCarousel() {
     for (let i = -5; i < 25; i++) {
         let date = new Date();
         date.setDate(hoy.getDate() + i);
-        const y = date.getFullYear(), m = (date.getMonth() + 1).toString().padStart(2, '0'), d = date.getDate().toString().padStart(2, '0');
+
+        // Formateo de fecha para ID y comparación
+        const y = date.getFullYear();
+        const m = (date.getMonth() + 1).toString().padStart(2, '0');
+        const d = date.getDate().toString().padStart(2, '0');
         const dateISO = `${y}-${m}-${d}`;
         const dayMonthStr = `${d}/${m}`;
+
+        // Variables de estado
         const hasTask = tasks.some(t => t.date === dateISO);
         const isToday = dateISO === hoyISO;
 
         const card = document.createElement('div');
-        card.className = `day-card ${hasTask ? 'has-task' : ''} ${currentFilter === dateISO ? 'selected' : ''}`;
+
+        // ASIGNACIÓN DE CLASES (Aquí está la lógica del punto 'today')
+        card.className = `day-card 
+            ${hasTask ? 'has-task' : ''} 
+            ${currentFilter === dateISO ? 'selected' : ''} 
+            ${isToday ? 'today' : ''}`.replace(/\s+/g, ' ').trim();
+
+        // IDs para el scroll automático
         if (isToday) card.id = "today-card";
         if (currentFilter === dateISO) card.id = "active-card";
 
+        // Contenido de la tarjeta
         card.innerHTML = `
             ${isToday ? '<span class="today-label">(HOY)</span>' : ''}
             <span class="day-number">${dayMonthStr}</span>
         `;
 
+        // Evento de clic
         card.onclick = () => {
             currentFilter = dateISO;
             saveAndRender();
             setTimeout(scrollToActive, 100);
         };
+
         carousel.appendChild(card);
     }
 }
+
 
 function scrollToActive() {
     const target = document.getElementById('active-card') || document.getElementById('today-card');
