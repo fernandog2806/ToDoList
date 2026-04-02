@@ -7,6 +7,7 @@ const deleteBtn = document.getElementById('deleteBtn');
 const selectAll = document.getElementById('selectAll');
 const selectAllContainer = document.getElementById('select-all-container');
 const addBtn = document.getElementById('addBtn');
+const applyChangesBtn = document.getElementById('applyChangesBtn');
 const moveTaskDate = document.getElementById('moveTaskDate');
 
 /* --- ESTADO Y FECHAS: Inicialización de datos y configuración de calendario --- */
@@ -117,6 +118,11 @@ function renderTasks() {
     if (moveTaskTime) {
         const tieneTareasSeleccionadas = filtered.some(t => t.selected);
         moveTaskTime.disabled = !tieneTareasSeleccionadas;
+    }
+
+    if (applyChangesBtn) {
+        const tieneTareasSeleccionadas = filtered.some(t => t.selected);
+        applyChangesBtn.disabled = !tieneTareasSeleccionadas;
     }
 
     renderCarousel();
@@ -263,8 +269,6 @@ function handleMoveTasks() {
     }
 }
 
-moveTaskDate?.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleMoveTasks(); });
-
 /* --- CAMBIO DE HORA: Modificar hora de tareas marcadas --- */
 function handleMoveTime() {
     const newTime = moveTaskTime.value;
@@ -277,7 +281,37 @@ function handleMoveTime() {
     }
 }
 
-moveTaskTime?.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleMoveTime(); });
+// Botón unificado para aplicar ambos cambios (ideal para móviles)
+applyChangesBtn?.addEventListener('click', () => {
+    const newDate = moveTaskDate.value;
+    const newTime = moveTaskTime.value;
+
+    // Si no hay nada escrito en ninguno de los dos, no hacemos nada
+    if (!newDate && !newTime) return;
+
+    const tasksToMove = tasks.filter(t => t.selected && t.date === currentFilter);
+
+    if (tasksToMove.length > 0) {
+        tasksToMove.forEach(t => {
+            // Si pusiste fecha, la cambiamos
+            if (newDate && newDate.length === 10) {
+                t.date = newDate;
+            }
+            // Si pusiste hora (o la borraste), la cambiamos
+            if (newTime !== "") {
+                t.time = newTime || null;
+            }
+            t.selected = false; // Desmarcamos tras mover
+        });
+
+        if (newDate) currentFilter = newDate;
+        
+        moveTaskDate.value = "";
+        moveTaskTime.value = "";
+        saveAndRender();
+        if (newDate) setTimeout(scrollToActive, 100);
+    }
+});
 
 window.scrollCarousel = (direction) => {
     document.getElementById('calendar-carousel').scrollBy({ left: direction * 120, behavior: 'smooth' });

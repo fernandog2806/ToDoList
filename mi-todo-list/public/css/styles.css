@@ -483,6 +483,30 @@ h1 {
     align-items: center;
     gap: 8px;
 }
+
+/* Botón para aplicar cambios de fecha/hora */
+#applyChangesBtn {
+    padding: 8px 15px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 11px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#applyChangesBtn:hover:not(:disabled) {
+    background: var(--primary-dark);
+}
+
+#applyChangesBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .done-btn, .edit-btn {
     background: none; /* Elimina el recuadro/fondo del botón */
     border: none;     /* Elimina el recuadro/borde del botón */
@@ -672,4 +696,17 @@ h1 {
     text-align: left;
     flex-grow: 2;
     margin-left: 20px;
+}
+
+/* --- RESPONSIVE: Ajustes para móviles --- */
+@media (max-width: 480px) {
+    .toolbar-row-bottom {
+        flex-direction: column; /* Apila fecha y hora uno sobre otro */
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .toolbar-row-top {
+        gap: 8px; /* Espacio entre el selector y los botones de acción */
+    }
 }
