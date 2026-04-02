@@ -39,6 +39,7 @@ body {
     width: 95%;
     max-width: 450px;
     margin: 0 auto;
+    display: flex;
     flex-direction: column;
     gap: 15px;
     padding-bottom: 40px;
@@ -280,7 +281,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-    padding: 2 8;
+    padding: 2px 8px;
 }
 
 .nav-btn:hover {
@@ -295,17 +296,10 @@ h1 {
 
 .carousel-wrapper {
     display: flex;
-    justify-content: center;
-    /* Centra el carrusel horizontalmente */
     align-items: center;
     gap: 8px;
-    background: white;
-    padding: 15px 12px;
-    /* Más padding arriba/abajo para que el borde NO se corte */
-    border-radius: 14px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 10px 0;
     width: 100%;
-    /* Asegura que ocupe todo el ancho disponible */
     box-sizing: border-box;
 }
 
@@ -404,96 +398,156 @@ h1 {
 }
 
 
+/* Estilos para el encabezado de la lista */
+.task-list-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+    margin-bottom: 8px;
+    margin-top: 10px;
+    margin-left: 6px; /* Compensa el borde de prioridad */
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Definición de columnas para alineación horizontal */
+.col-sel { width: 70px; flex-shrink: 0; }
+.col-msg { flex: 1; }
+.col-actions { 
+    width: 80px; 
+    flex-shrink: 0; 
+    display: flex; 
+    gap: 4px; 
+    justify-content: flex-end; 
+}
+
+/* Ajuste de etiquetas de acción en el encabezado */
+.header-actions {
+    display: flex;
+    gap: 4px;
+    width: 80px;
+    justify-content: flex-end;
+}
+.header-actions span { width: 38px; text-align: center; }
+
 /* --- 5. LISTA DE TAREAS --- */
 .task-box {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 12px;
     border-left: 6px solid transparent;
     background: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    font-weight: 500;
 }
 
-.priority-red {
-    background-color: #fff1f2;
-    border-color: #ef4444;
-}
-
-.priority-orange {
-    background-color: #fff7ed;
-    border-color: #f97316;
-}
-
-.priority-yellow {
-    background-color: #fefce8;
-    border-color: #facc15;
-}
-
-.priority-green {
-    background-color: #f0fdf4;
-    border-color: #22c55e;
-}
-
-.task-text {
-    font-size: 15px;
-    line-height: 1.5;
-}
-
-/* --- 6. BOTONES DE ACCIÓN --- */
-/* Contenedor para "Seleccionar todos" y "Borrar seleccionadas" */
-#select-all-container {
-    display: flex;
-    justify-content: space-between; /* Empuja el botón a la derecha */
-    align-items: center; /* Centra verticalmente los elementos */
-    margin-top: 15px; /* Espacio superior */
-    margin-bottom: 10px; /* Espacio inferior antes de la lista de tareas */
-    padding: 0 5px; /* Pequeño padding horizontal para balance visual */
-}
-
-/* Agrupación del checkbox y label */
-#select-all-container div {
+.task-main-info {
     display: flex;
     align-items: center;
-    gap: 8px; /* Espacio entre el checkbox y el texto */
+    gap: 12px;
+    flex: 1;
 }
 
-/* Estilo para el checkbox */
-#select-all-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+.task-actions {
+    display: flex;
+    gap: 8px;
+}
+
+#select-all-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+}
+
+.toolbar-row-top, .toolbar-row-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.tool-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.done-btn, .edit-btn {
+    background: none; /* Elimina el recuadro/fondo del botón */
+    border: none;     /* Elimina el recuadro/borde del botón */
+    padding: 0;
+    width: 38px;
+    height: 34px;
     cursor: pointer;
-}
-
-/* Estilo para la etiqueta del checkbox */
-#select-all-container label {
     font-size: 14px;
-    color: var(--text-dark);
-    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4; /* Se ve tenue/grisáceo por defecto */
+}
+
+.done-btn {
+    filter: grayscale(1); /* El tilde se ve gris cuando la tarea está pendiente */
+}
+
+.done-btn.is-completed {
+    filter: grayscale(0); /* Recupera el verde original (emoji ✅) al completarse */
+    opacity: 1;
+}
+
+.edit-btn:hover, .done-btn:hover {
+    opacity: 1;
+    transform: scale(1.2); /* Efecto de aumento suave sin recuadro */
+}
+.done-btn, .edit-btn {
+    background: none; /* Elimina el recuadro/fondo del botón */
+    border: none;     /* Elimina el recuadro/borde del botón */
+    padding: 5px;
     cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4; /* Se ve tenue/grisáceo por defecto */
+}
+
+.done-btn {
+    filter: grayscale(1); /* El tilde se ve gris cuando la tarea está pendiente */
+}
+
+.done-btn.is-completed {
+    filter: grayscale(0); /* Recupera el verde original (emoji ✅) al completarse */
+    opacity: 1;
+}
+
+.edit-btn:hover, .done-btn:hover {
+    opacity: 1;
+    transform: scale(1.2); /* Efecto de aumento suave sin recuadro */
 }
 
 #deleteBtn {
-    font-family: var(--font-main);
-    width: auto; /* Elimina el ancho del 100% */
-    padding: 8px 15px; /* Reduce el padding para un botón más pequeño */
+    padding: 8px 15px;
     background: var(--danger);
     color: white;
     border: none;
-    border-radius: 8px; /* Ajusta el radio de borde para que coincida con el tamaño */
+    border-radius: 8px;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 11px; /* Reduce ligeramente el tamaño de la fuente */
-    margin-top: 0; /* Elimina el margen superior */
+    font-size: 11px;
     cursor: pointer;
-    transition: all 0.2s;
-}
-
-#deleteBtn:hover {
-    background-color: #dc2626;
-    transform: translateY(-2px);
 }
 /* --- PRIORIDAD ABSOLUTA: EL SELECCIONADO (VIOLETA) MANDA --- */
 
@@ -570,4 +624,52 @@ h1 {
 .task-box.priority-p3 {
     border-left: 6px solid #7acc7a !important;
     background-color: #f5fff5 !important;
+}
+
+.task-list-header {
+    display: flex;
+    justify-content: space-between;
+    /* Distribuye las palabras en los extremos */
+    align-items: center;
+    padding: 0 15px;
+    /* Debe tener el mismo padding que tus task-box */
+    margin-bottom: 10px;
+    /* Espacio con la primera tarea */
+    font-size: 0.7rem;
+    /* Tamaño pequeño como en tu imagen */
+    font-weight: bold;
+    color: #6d7d8b;
+    /* Color gris azulado profesional */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Ajuste fino para cada columna si es necesario */
+.task-list-header span {
+    flex: 1;
+    /* Hace que cada uno ocupe el mismo espacio base */
+    text-align: center;
+    /* Centra el texto dentro de su pedacito */
+}
+
+/* Alineamos el primero a la izquierda (Seleccionar) */
+.task-list-header span:first-child {
+    text-align: left;
+    max-width: 80px;
+    /* Ajusta al ancho de tu checkbox */
+}
+
+/* Alineamos los últimos a la derecha (Hecha / Editar) */
+.task-list-header span:nth-child(3),
+.task-list-header span:last-child {
+    text-align: right;
+    max-width: 60px;
+    /* Ajusta al ancho de tus iconos */
+}
+
+/* El del medio que ocupe todo lo que pueda (Mensaje / Tarea) */
+.task-list-header span:nth-child(2) {
+    text-align: left;
+    flex-grow: 2;
+    margin-left: 20px;
 }

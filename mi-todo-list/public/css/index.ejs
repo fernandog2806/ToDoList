@@ -115,32 +115,30 @@
 
         <!-- SECCIÓN DE LISTA MEJORADA -->
         <section id="task-area">
-        <div id="select-all-container">
-            <div class="toolbar-row-top">
-                <div class="tool-group">
+            <!-- BARRA DE HERRAMIENTAS ALINEADA -->
+            <div id="select-all-container" class="grid-row">
+                <div class="col-sel">
                     <input type="checkbox" id="selectAll">
-                    <label for="selectAll">Todos</label>
+                    <label for="selectAll" style="font-size: 10px; font-weight: 800;">TODO</label>
                 </div>
-                <button id="deleteBtn" class="hidden">Borrar seleccionadas</button>
-            </div>
-            <div class="toolbar-row-bottom">
-                <div class="tool-group">
-                    <label for="moveTaskDate">📅 Mover:</label>
-                    <input type="date" id="moveTaskDate">
+                <div class="col-msg">
+                    <input type="date" id="moveTaskDate" title="Mover a fecha">
                 </div>
-                <div class="tool-group">
-                    <label for="moveTaskTime">⏰ Hora:</label>
-                    <input type="time" id="moveTaskTime">
+                <div class="col-done">
+                    <input type="time" id="moveTaskTime" title="Cambiar hora">
+                </div>
+                <div class="col-edit">
+                    <button id="deleteBtn" class="hidden">Borrar</button>
                 </div>
             </div>
-        </div>
 
-        <div id="taskListHeader" class="task-list-header">
-            <span for="taskListTitle">Seleccionar</span>
-            <span for="taskListTitle">Mensaje / Tarea</span>
-            <span for="taskListTitle">Hecha</span>
-            <span for="taskListTitle">Editar</span>
-        </div>
+            <!-- ENCABEZADO DE COLUMNAS -->
+            <div id="taskListHeader" class="task-list-header grid-row hidden">
+                <div class="col-sel">Sel.</div>
+                <div class="col-msg">Tareas / Mensaje</div>
+                <div class="col-done">Completada</div>
+                <div class="col-edit">Editar</div>
+            </div>
 
 
             <div id="taskList"></div>
