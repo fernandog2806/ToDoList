@@ -1,21 +1,20 @@
-/* IMPORTAR FUENTE PROFESIONAL */
+/* ==========================================================================
+   1. VARIABLES Y BASE
+   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
 
-/* --- 1. VARIABLES GLOBALES Y ESTILOS BASE --- */
 :root {
-    /* Colores principales y de fondo */
     --primary: #6366f1;
     --primary-dark: #4f46e5;
+    --accent: #8b5cf6;
     --danger: #ef4444;
     --danger-light: #fee2e2;
     --bg: #f8fafc;
     --white: #ffffff;
     --text-muted: #64748b;
     --text-dark: #1e293b;
-    /* Definimos la fuente principal */
     --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
-    /* Colores de Prioridad (Gradients) */
     --p-red: linear-gradient(135deg, #ff4b2b, #ff416c);
     --p-orange: linear-gradient(135deg, #f09819, #edde5d);
     --p-yellow: linear-gradient(135deg, #f7971e, #ffd200);
@@ -27,13 +26,13 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center; /* 🔹 centra también verticalmente */
+    align-items: flex-start;
     min-height: 100vh;
     font-family: var(--font-main);
     color: var(--text-dark);
     -webkit-font-smoothing: antialiased;
+    padding-top: 20px;
 }
-
 
 .app-container {
     width: 95%;
@@ -48,36 +47,19 @@ body {
 h1 {
     color: var(--primary);
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-weight: 800;
-    /* Más gruesa para resaltar */
     letter-spacing: -1px;
 }
 
-.hidden {
-    display: none !important;
-}
+.hidden { display: none !important; }
 
-/* --- 2. SELECTOR DE PRIORIDAD (PREMIUM CON TOOLTIPS) --- */
-#priority-selector-area {
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.selector-title {
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 15px;
-}
-
-.priority-radio-group {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
+/* ==========================================================================
+   2. SELECTOR DE PRIORIDAD (PILLS)
+   ========================================================================== */
+#priority-selector-area { margin-bottom: 10px; text-align: center; }
+.selector-title { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }
+.priority-radio-group { display: flex; justify-content: center; gap: 10px; }
 
 .radio-card input {
     display: none;
@@ -169,44 +151,9 @@ h1 {
     bottom: 130%;
 }
 
-/* Colores para las tareas según prioridad */
-.task-p0 {
-    border-left: 5px solid red;
-    background-color: #ffe6e6;
-}
-
-.task-p1 {
-    border-left: 5px solid orange;
-    background-color: #fff2e6;
-}
-
-.task-p2 {
-    border-left: 5px solid yellow;
-    background-color: #ffffe6;
-}
-
-.task-p3 {
-    border-left: 5px solid green;
-    background-color: #e6ffe6;
-}
-
-/* Estilo general para la tarea */
-
-.task-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.task-time {
-    font-size: 0.8rem;
-    color: #888;
-    margin-left: auto;
-    /* Esto empuja la hora al extremo derecho de la tarea */
-    font-weight: bold;
-}
-/* verde bajo */
-/* --- 3. SECCIÓN DE ENTRADA --- */
+/* ==========================================================================
+   3. SECCIÓN DE ENTRADA (INPUT AREA)
+   ========================================================================== */
 #input-area {
     background: var(--white);
     padding: 20px;
@@ -217,9 +164,7 @@ h1 {
     gap: 12px;
 }
 
-/* Formato unificado para inputs y select (desplegable) */
-#input-area input, 
-#input-area select {
+#input-area input, #input-area select {
     font-family: var(--font-main);
     width: 100%;
     padding: 12px;
@@ -233,18 +178,14 @@ h1 {
     cursor: pointer;
 }
 
-#input-area input:focus,
-#input-area select:focus {
+#input-area input:focus, #input-area select:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
     background-color: white;
 }
 
-#taskInput {
-    background-color: white !important;
-    cursor: text !important;
-}
+#taskInput { background-color: white !important; cursor: text !important; }
 
 #addBtn {
     font-family: var(--font-main);
@@ -258,12 +199,31 @@ h1 {
     transition: 0.2s;
 }
 
-#addBtn:hover {
-    background-color: var(--primary-dark);
+#addBtn:hover { background-color: var(--primary-dark); }
+
+/* ==========================================================================
+   4. CALENDARIO DINÁMICO (CARRUSEL)
+   ========================================================================== */
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+.calendar-carousel {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 6px 2px;
+    align-items: center;
+}
 
-/* FLECHAS DEL CARRUSEL */
+.calendar-carousel::-webkit-scrollbar { display: none; }
+
 .nav-btn {
     font-family: var(--font-main);
     width: 40px;
@@ -286,39 +246,10 @@ h1 {
 
 .nav-btn:hover {
     background-color: var(--primary-dark);
-    transform: scale(1.15);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
+    transform: scale(1.15); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
 }
 
-.nav-btn:active {
-    transform: scale(0.95);
-}
-
-.carousel-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.calendar-carousel {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    /* Un pequeño padding interno evita que el borde se corte al escalar */
-    padding: 6px 2px;
-    align-items: center;
-}
-
-/* Si quieres que los días estén centrados cuando hay pocos */
-/* .calendar-carousel { justify-content: center; } */
-
-.calendar-carousel::-webkit-scrollbar {
-    display: none;
-}
+.nav-btn:active { transform: scale(0.95); }
 
 .day-card {
     position: relative;
@@ -336,7 +267,6 @@ h1 {
     margin: 0;
     margin-top: 2px;
     border: 2px solid transparent;
-
 }
 
 .day-card:hover:not(.selected) {
@@ -396,259 +326,208 @@ h1 {
     transform: scale(1.18);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+/* --- ESTADOS DEL CALENDARIO --- */
+.day-card.selected {
+    background-color: var(--primary) !important;
+    border-color: var(--primary-dark) !important;
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    z-index: 10;
+}
 
+.day-card.selected .day-number, .day-card.selected .today-label { color: white !important; }
 
-/* Estilos para el encabezado de la lista */
+.day-card.has-task:not(.selected) {
+    background-color: #fee2e2 !important;
+    border: 2px solid #ef4444 !important;
+}
+
+.day-card.has-task:not(.selected) .day-number, .day-card.has-task:not(.selected) .today-label { color: #ef4444 !important; }
+
+.day-card.today::before {
+    content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 7px; height: 7px; border-radius: 50%; background-color: var(--primary);
+    transition: background-color 0.3s ease; display: block; z-index: 20;
+}
+
+.day-card.today.selected::before { background-color: white !important; }
+
+/* ==========================================================================
+   5. LISTA DE TAREAS (ENCABEZADO Y COLUMNAS)
+   ========================================================================== */
 .task-list-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 0 12px;
+    justify-content: space-between;
+    padding: 0 15px;
     margin-bottom: 8px;
     margin-top: 10px;
-    margin-left: 6px; /* Compensa el borde de prioridad */
-    font-size: 10px;
+    font-size: 0.7rem;
     font-weight: 800;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* Definición de columnas para alineación horizontal */
-.col-sel { width: 70px; flex-shrink: 0; }
-.col-msg { flex: 1; }
-.col-actions { 
-    width: 80px; 
-    flex-shrink: 0; 
-    display: flex; 
-    gap: 4px; 
-    justify-content: flex-end; 
-}
+.task-list-header span { flex: 1; text-align: center; }
 
-/* Ajuste de etiquetas de acción en el encabezado */
-.header-actions {
-    display: flex;
-    gap: 4px;
-    width: 80px;
-    justify-content: flex-end;
-}
+/* Alineación específica de columnas */
+.col-sel { width: 70px; flex-shrink: 0; display: flex; justify-content: center; }
+.col-msg { flex: 1; }
+.col-actions, .header-actions { width: 80px; flex-shrink: 0; display: flex; gap: 4px; justify-content: flex-end; }
+
+.task-list-header span:first-child { text-align: left; max-width: 80px; }
+.task-list-header span:nth-child(2) { text-align: left; flex-grow: 2; margin-left: 20px; }
+.task-list-header span:nth-child(3), .task-list-header span:last-child { text-align: right; max-width: 60px; }
+
 .header-actions span { width: 38px; text-align: center; }
 
-/* --- 5. LISTA DE TAREAS --- */
+/* ==========================================================================
+   6. ITEMS DE TAREA (TASK BOXES)
+   ========================================================================== */
 .task-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    border-left: 6px solid transparent;
-    background: white;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px; margin-bottom: 10px; border-radius: 12px;
+    border-left: 6px solid transparent; background: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.task-main-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
+.task-main-info { display: flex; align-items: center; gap: 12px; flex: 1; }
+.task-info { padding-left: 50px; }
+.task-text { font-weight: 500; }
+.task-meta { font-size: 0.85em; margin-top: 2px; }
+.completed { text-decoration: line-through; color: var(--text-muted); opacity: 0.6; transition: all 0.3s ease; }
+
+/* --- PRIORIDADES --- */
+.task-box.priority-p0, .task-p0 { border-left: 6px solid #ff4d4d !important; background-color: #fff5f5 !important; }
+.task-box.priority-p1, .task-p1 { border-left: 6px solid #ffa64d !important; background-color: #fff9f5 !important; }
+.task-box.priority-p2, .task-p2 { border-left: 6px solid #ffdb4d !important; background-color: #fffef5 !important; }
+.task-box.priority-p3, .task-p3 { border-left: 6px solid #7acc7a !important; background-color: #f5fff5 !important; }
+
+/* ==========================================================================
+   7. BOTONES DE ACCIÓN (HECHA/EDITAR)
+   ========================================================================== */
+.done-btn, .edit-btn {
+    background: none; border: none; padding: 5px; cursor: pointer; font-size: 14px;
+    transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; opacity: 0.4;
 }
 
-.task-actions {
-    display: flex;
-    gap: 8px;
-}
+.done-btn { filter: grayscale(1); }
+.done-btn.is-completed { filter: grayscale(0); opacity: 1; }
+.edit-btn:hover, .done-btn:hover { opacity: 1; transform: scale(1.2); }
+button.done-btn { padding-right: 50px; }
 
+/* ==========================================================================
+   8. BARRA DE HERRAMIENTAS (TOOLBAR / MOVER / BORRAR)
+   ========================================================================== */
 #select-all-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    padding: 15px;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
-    border-radius: 14px;
+    display: flex; flex-direction: column; gap: 15px; margin-top: 20px;
+    margin-bottom: 15px; padding: 15px; background: #f1f5f9;
+    border: 1px solid #e2e8f0; border-radius: 14px;
 }
 
-.toolbar-row-top, .toolbar-row-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+.toolbar-row-top, .toolbar-row-bottom { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+    gap: 8px; /* Espacio para que quepan todos en la misma línea */
 }
 
-.tool-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Botón para aplicar cambios de fecha/hora */
-#applyChangesBtn {
-    padding: 8px 15px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 11px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-#applyChangesBtn:hover:not(:disabled) {
-    background: var(--primary-dark);
-}
-
-#applyChangesBtn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.done-btn, .edit-btn {
-    background: none; /* Elimina el recuadro/fondo del botón */
-    border: none;     /* Elimina el recuadro/borde del botón */
-    padding: 0;
-    width: 38px;
-    height: 34px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.4; /* Se ve tenue/grisáceo por defecto */
-}
-
-.done-btn {
-    filter: grayscale(1); /* El tilde se ve gris cuando la tarea está pendiente */
-}
-
-.done-btn.is-completed {
-    filter: grayscale(0); /* Recupera el verde original (emoji ✅) al completarse */
-    opacity: 1;
-}
-
-.edit-btn:hover, .done-btn:hover {
-    opacity: 1;
-    transform: scale(1.2); /* Efecto de aumento suave sin recuadro */
-}
-.done-btn, .edit-btn {
-    background: none; /* Elimina el recuadro/fondo del botón */
-    border: none;     /* Elimina el recuadro/borde del botón */
-    padding: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.4; /* Se ve tenue/grisáceo por defecto */
-}
-
-.done-btn {
-    filter: grayscale(1); /* El tilde se ve gris cuando la tarea está pendiente */
-}
-
-.done-btn.is-completed {
-    filter: grayscale(0); /* Recupera el verde original (emoji ✅) al completarse */
-    opacity: 1;
-}
-
-.edit-btn:hover, .done-btn:hover {
-    opacity: 1;
-    transform: scale(1.2); /* Efecto de aumento suave sin recuadro */
+.toolbar-row-bottom input {
+    flex: 1;      /* Los inputs se reparten el espacio */
+    width: auto;
+    min-width: 0; /* Permite que se encojan en móviles */
+    padding: 8px; /* Un poco más compacto */
 }
 
 #deleteBtn {
-    padding: 8px 15px;
-    background: var(--danger);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 11px;
-    cursor: pointer;
-}
-/* --- PRIORIDAD ABSOLUTA: EL SELECCIONADO (VIOLETA) MANDA --- */
-
-/* Cuando un día está seleccionado, NO importa si tiene tarea, DEBE ser violeta */
-.day-card.selected {
-    background-color: var(--primary) !important;
-    border-color: var(--primary-dark) !important;
-    transform: scale(1.1) translateY(-2px);
-    /* Un poco de escala y subida */
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-    z-index: 10;
+    padding: 8px 15px; background: var(--danger); color: white; border: none;
+    border-radius: 8px; font-weight: 800; text-transform: uppercase; font-size: 11px; cursor: pointer;
 }
 
-/* Forzamos texto blanco en selección, incluso si hay clase has-task */
-.day-card.selected .day-number,
-.day-card.selected .today-label {
-    color: white !important;
+/* --- BOTÓN MOVER (DISEÑO PREMIUM) --- */
+#applyChangesBtn {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white; padding: 10px 20px; border: none; border-radius: 12px;
+    font-weight: 800; text-transform: uppercase; font-size: 11px;
+    cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
 }
 
-/* --- DÍA CON TAREA (SOLO SI NO ESTÁ SELECCIONADO) --- */
-.day-card.has-task:not(.selected) {
-    background-color: #fee2e2 !important;
-    /* Rojo claro */
-    border: 2px solid #ef4444 !important;
-    /* Borde rojo visible */
+#applyChangesBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, var(--primary-dark), var(--accent));
 }
 
-.day-card.has-task:not(.selected) .day-number,
-.day-card.has-task:not(.selected) .today-label {
-    color: #ef4444 !important;
+#applyChangesBtn:disabled {
+    background: #cbd5e1;
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
 }
 
-/* --- LÓGICA DEL PUNTO (HOY) CON TAREAS --- */
+/* ==========================================================================
+   9. MODO PC (PANTALLAS GRANDES)
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .app-container {
+        max-width: 700px; /* Contenedor más ancho */
+        gap: 25px;
+    }
 
-/* El punto de HOY: Violeta si tiene tarea o está normal (sin seleccionar) */
-.day-card.today::before {
-    content: '';
-    position: absolute;
-    /* Bajamos de 8px a 5px para que suba más */
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: var(--primary);
-    transition: background-color 0.3s ease;
-    display: block;
-    z-index: 20;
-    /* Asegura que esté por encima de todo */
+    h1 {
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+    }
+
+    #input-area {
+        padding: 30px;
+        gap: 18px;
+    }
+
+    #input-area input, #input-area select {
+        font-size: 18px;
+        padding: 15px;
+    }
+
+    #addBtn {
+        padding: 15px 30px;
+        font-size: 18px;
+    }
+
+    .pill-dot {
+        width: 45px;
+        height: 45px;
+        font-size: 12px;
+    }
+
+    .day-card {
+        min-width: 65px;
+        height: 65px;
+    }
+
+    .day-number { font-size: 18px; }
+
+    .task-box { padding: 20px; }
+    .task-text { font-size: 18px; }
+    .task-meta { font-size: 13px; }
+
+    .done-btn, .edit-btn { font-size: 20px; }
+
+    #applyChangesBtn, #deleteBtn {
+        padding: 12px 25px;
+        font-size: 13px;
+    }
+
+    .task-list-header {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
 }
 
-/* El punto de HOY se vuelve BLANCO solo al seleccionar */
-.day-card.today.selected::before {
-    background-color: white !important;
-
-}
-/* Asegúrate de que los nombres coincidan con la clase del JS: priority-p0, priority-p1... */
-.task-box.priority-p0 {
-    border-left: 6px solid #ff4d4d !important;
-    background-color: #fff5f5 !important;
-}
-
-.task-box.priority-p1 {
-    border-left: 6px solid #ffa64d !important;
-    background-color: #fff9f5 !important;
-}
-
-.task-box.priority-p2 {
-    border-left: 6px solid #ffdb4d !important;
-    background-color: #fffef5 !important;
-}
-
-.task-box.priority-p3 {
-    border-left: 6px solid #7acc7a !important;
-    background-color: #f5fff5 !important;
-}
 
 .task-list-header {
     display: flex;
@@ -698,15 +577,98 @@ h1 {
     margin-left: 20px;
 }
 
-/* --- RESPONSIVE: Ajustes para móviles --- */
-@media (max-width: 480px) {
-    .toolbar-row-bottom {
-        flex-direction: column; /* Apila fecha y hora uno sobre otro */
-        align-items: stretch;
-        gap: 10px;
+div.col-msg.task-info {
+    padding-left: 50px;
+}
+
+button.done-btn {
+    padding-right: 50px;
+}
+
+/* Estilo para tareas completadas (Texto y Hora) */
+.completed {
+    text-decoration: line-through;
+    color: var(--text-muted);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+/* Botón para aplicar cambios de fecha/hora */
+#applyChangesBtn {
+    padding: 8px 15px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 11px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#applyChangesBtn:hover:not(:disabled) {
+    background: var(--primary-dark);
+}
+
+#applyChangesBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* Contenedor principal: los separa (Inputs a la izq, Botón a la der) */
+.toolbar-row-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* Alinea el botón con la base de los inputs */
+    width: 100%;
+}
+
+/* En PC: Los inputs van uno al lado del otro */
+.inputs-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+/* --- RESPONSIVE (PANTALLAS CHICAS) --- */
+@media (max-width: 600px) {
+
+    /* Aquí ocurre la magia: Fecha arriba, Hora abajo */
+    .inputs-wrapper {
+        flex-direction: column;
+        gap: 8px;
     }
 
-    .toolbar-row-top {
-        gap: 8px; /* Espacio entre el selector y los botones de acción */
+    /* El botón se queda a la derecha gracias al padre (justify-content) */
+    #applyChangesBtn {
+        align-self: flex-end;
+    }
+}
+
+/* Estilo para que el label no quede pegado al icono */
+.tool-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Seleccionamos el tercer <span> (Hecha) dentro del header */
+.task-list-header span:nth-child(3) {
+    position: relative;
+    /* Permite moverlo sin romper el flujo de flexbox */
+    left: -5px;
+    /* Lo empuja 5px a la izquierda */
+
+    /* Opcional: si quieres asegurar el ancho para que los iconos de abajo 
+       sigan alineados, puedes usar margin-right */
+    /* margin-right: 5px; */
+}
+
+/* Solo para pantallas grandes (opcional, si quieres que en móvil no se mueva) */
+@media (min-width: 1024px) {
+    .task-list-header span:nth-child(3) {
+        left: -25px;
     }
 }

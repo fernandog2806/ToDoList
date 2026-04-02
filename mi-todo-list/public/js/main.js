@@ -94,7 +94,7 @@ function renderTasks() {
                 </div>
                 <div class="col-msg task-info">
                     <span class="task-text ${t.completed ? 'completed' : ''}">${t.text}</span>
-                    <div class="task-meta">${t.time ? `<small>⏰ ${t.time} hs</small>` : ''}</div>
+                    <div class="task-meta ${t.completed ? 'completed' : ''}">${t.time ? `<small>⏰ ${t.time} hs</small>` : ''}</div>
                 </div>
                 <div class="col-done">
                     <button class="done-btn ${t.completed ? 'is-completed' : ''}" onclick="toggleDone('${t.id}')">
@@ -213,14 +213,14 @@ function scrollToActive() {
 
 // "Magia": Al tocar un botón de prioridad, cambia la importancia de las tareas marcadas del día
 document.querySelectorAll('input[name="priority"]').forEach(radio => {
-    radio.addEventListener('click', () => {
+    radio.addEventListener('change', () => {
         const nuevaPrioridad = radio.value;
         
-        // Filtra tareas completadas del día que estás viendo
-        const marcadas = tasks.filter(t => t.completed && t.date === currentFilter);
+        // Ahora afecta a las tareas SELECCIONADAS con el checkbox
+        const seleccionadas = tasks.filter(t => t.selected && t.date === currentFilter);
 
-        if (marcadas.length > 0) {
-            marcadas.forEach(t => t.priority = nuevaPrioridad);
+        if (seleccionadas.length > 0) {
+            seleccionadas.forEach(t => t.priority = nuevaPrioridad);
             saveAndRender();
         }
     });

@@ -119,26 +119,32 @@
             <div class="toolbar-row-top">
                 <div class="tool-group">
                     <input type="checkbox" id="selectAll">
-                    <label for="selectAll">Todos</label>
+                    <label for="selectAll">Selec. todos</label>
                 </div>
                 <button id="deleteBtn" class="hidden">Borrar seleccionadas</button>
-                <button id="applyChangesBtn" disabled>Mover</button>
-
             </div>
+        
             <div class="toolbar-row-bottom">
-                <div class="tool-group">
-                    <label for="moveTaskDate">📅 Mover:</label>
-                    <input type="date" id="moveTaskDate">
+                <!-- ENVOLTORIO PARA QUE FECHA Y HORA SE APILEN JUNTOS -->
+                <div class="inputs-wrapper">
+                    <div class="tool-group">
+                        <label for="moveTaskDate">📅 Cambiar día:</label>
+                        <input type="date" id="moveTaskDate">
+                    </div>
+                    <div class="tool-group">
+                        <label for="moveTaskTime">⏰ Cambiar hora:</label>
+                        <input type="time" id="moveTaskTime">
+                    </div>
                 </div>
-                <div class="tool-group">
-                    <label for="moveTaskTime">⏰ Hora:</label>
-                    <input type="time" id="moveTaskTime">
-                </div>
+        
+                <!-- EL BOTÓN QUEDA FUERA PARA ESTAR A LA DERECHA -->
+                <button id="applyChangesBtn" disabled>Mover</button>
             </div>
         </div>
 
+
         <div id="taskListHeader" class="task-list-header">
-            <span for="taskListTitle">Seleccionar</span>
+            <span for="taskListTitle">Selec</span>
             <span for="taskListTitle">Mensaje / Tarea</span>
             <span for="taskListTitle">Hecha</span>
             <span for="taskListTitle">Editar</span>
